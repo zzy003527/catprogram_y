@@ -16,14 +16,26 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "experimentalDecorators": true,
-    "lib": ["dom", "esnext"],
-    "types": ["vite/client"],
-    "typeRoots": ["./node_modules/@types/", "./types"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "types": [
+      "vite/client"
+    ],
+    "typeRoots": [
+      "./node_modules/@types/",
+      "./types"
+    ],
     "noImplicitAny": false,
     "skipLibCheck": true,
     "paths": {
-      "/@/*": ["src/*"],
-      "/#/*": ["types/*"]
+      "@/*": [
+        "src/*"
+      ],
+      "/#/*": [
+        "types/*"
+      ]
     }
   },
   "include": [
@@ -41,7 +53,15 @@
     "src/settings/dist/theme.js",
     "src/tools.js"
   ],
-  "exclude": ["node_modules", "tests/server/**/*.ts", "dist", "**/*.js"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": [
+    "node_modules",
+    "tests/server/**/*.ts",
+    "dist",
+    "**/*.js"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }
-
