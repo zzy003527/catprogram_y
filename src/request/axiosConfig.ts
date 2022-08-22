@@ -140,30 +140,29 @@ service.interceptors.response.use((response: AxiosResponse) => {
             showClose: true
         });
         return Promise.reject(response.data);
-    }else { // 接口连接成功
-            if(response.data.code == 200){
-                return response.data
-            }else { // 接口报错
-                if(response.config.url){
-                    if(response.config.url.indexOf('login') > -1){
-                        store.commit('user/SET_LOGIN_ERR_MSG', response.data.data)
-                        store.commit('user/SET_TOKEN', '')
-                    }else{
-                        ElMessage({
-                            message: response.data.data || response.data.message,
-                            type: 'error',
-                            showClose: true
-                        });
-                    }
-                    throw response;// 抛出错误
+    } else { // 接口连接成功
+        if (response.request.status == 200) {
+            return response
+        } else { // 接口报错
+            if (response.config.url) {
+                if (response.config.url.indexOf('login') > -1) {
+
+                } else {
+                    ElMessage({
+                        message: response.data.data || response.data.message,
+                        type: 'error',
+                        showClose: true
+                    });
                 }
+                throw response;// 抛出错误
             }
+        }
     }
 }, (error: any) => {
     // console.log('请求错误', error, axios.isCancel(error), error.message);
 
     if (axios.isCancel(error)) { // 取消请求
-        if(isRemove){ // 路由切换导致的取消请求，不提示
+        if (isRemove) { // 路由切换导致的取消请求，不提示
             // console.log('重复请求: ' + error.message);
             ElMessage({
                 message: '请勿重复请求',

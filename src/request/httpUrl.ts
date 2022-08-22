@@ -2,7 +2,7 @@
 // 这是配置根目录的还有接口路径的
 
 const config = {
-    rootUrl: "http://localhost:8080/",
+    rootUrl: "http://127.0.0.1:4523/m1/1473415-0-default/",
 };
 
 const httpApi = {

@@ -6,7 +6,9 @@ import Application from './components/Application.vue'
 
 
 <template>
-  <Application />
+  <div id="app">
+    <Application />
+  </div>
 </template>
 
 <style scoped>
