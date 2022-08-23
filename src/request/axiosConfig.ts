@@ -9,7 +9,7 @@
 //这是axios配置的ts文件 
 
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import store from '../store/index';
+// import store from '../store/index';
 import { ElMessage } from "element-plus";
 import qs from 'qs';
 
@@ -146,8 +146,6 @@ service.interceptors.response.use((response: AxiosResponse) => {
             }else { // 接口报错
                 if(response.config.url){
                     if(response.config.url.indexOf('login') > -1){
-                        store.commit('user/SET_LOGIN_ERR_MSG', response.data.data)
-                        store.commit('user/SET_TOKEN', '')
                     }else{
                         ElMessage({
                             message: response.data.data || response.data.message,

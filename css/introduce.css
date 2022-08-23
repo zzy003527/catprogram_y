@@ -7,7 +7,7 @@
 body {
   scroll-behavior: smooth;
   background: #eeece5;
-  cursor: none;
+  cursor: default;
   font-family: "Lexend Mega", sans-serif;
   pointer-events: none;
   transition-delay: 2s;

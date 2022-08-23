@@ -93,22 +93,28 @@ window.addEventListener('DOMContentLoaded', function () {
   window.addEventListener("mousemove", (e) => {
     mouse.x = e.x;
     mouse.y = e.y;
+    // console.log(mouse.x,mouse.y,"pos:",pos.x,pos.y);
   });
 
-  gsap.ticker.add(() => {
-    const dt = 1.0 - Math.pow(1.0 - speed, gsap.ticker.deltaRatio());
+  function gsapadd() {
+    gsap.ticker.add(() => {
+      const dt = 1.0 - Math.pow(1.0 - speed, gsap.ticker.deltaRatio());
 
-    pos.x += (mouse.x - pos.x) * dt;
-    pos.y += (mouse.y - pos.y) * dt;
-    xSet(pos.x);
-    ySet(pos.y);
-  });
+      pos.x += (mouse.x - pos.x) * dt;
+      pos.y += (mouse.y - pos.y) * dt;
+      xSet(pos.x);
+      ySet(pos.y);
+      // console.log(mouse.x,mouse.y,"pos:",pos.x,pos.y);
+    });
+  }
+  gsapadd()
 
   Splitting();
 
   // Individual section scroll progress
 
   gsap.utils.toArray(".panel").forEach((section, index) => {
+    console.log(this);
     gsap.to(this, {
       scrollTrigger: {
         trigger: section,

@@ -5,6 +5,9 @@ import IntroduceOne from "../components/introduce_one.vue"
 import IntroduceTwo from "../components/introduce_two.vue"
 import IntroduceThree from "../components/introduce_three.vue"
 import IntroduceFour from "../components/introduce_four.vue"
+// 登录注册页面的组件引入
+import Login from "../components/login.vue"
+import Register from "../components/register.vue"
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -17,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/introduce',
         component: Introduce,
-        // redirect: '/introduce/introduceone',
+        // redirect: '/login', 
         // 介绍页面路由的子路由
         children:[
             {
@@ -37,6 +40,16 @@ const routes: Array<RouteRecordRaw> = [
                 component: IntroduceFour
             }
         ]
+    },
+    // 登录页面路由
+    {
+        path: '/login',
+        component: Login
+    },
+    // 注册页面路由
+    {
+        path: '/register',
+        component: Register
     }
 ];
 

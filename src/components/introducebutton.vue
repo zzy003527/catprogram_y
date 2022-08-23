@@ -6,8 +6,10 @@
 
 <template>
   <div id="introducebutton">
-    <button id="introducebuttonone">登录</button>
-    <button id="introducebuttontwo">注册</button>
+    <router-link id="introducebuttonone" class="buttonrouter" to="/login">登录</router-link>
+    <!-- <button id="introducebuttonone">登录</button> -->
+    <router-link id="introducebuttontwo" class="buttonrouter" to="/register">注册</router-link>
+    <!-- <button id="introducebuttontwo">注册</button> -->
   </div>
 </template>
 
@@ -25,6 +27,12 @@
         right: 40px;
         z-index: 100;
       }
+      /* #loginrouter,
+      #registerrouter {
+        height: 40px;
+        width: 76px;
+      } */
+
  * {
         margin: 0;
         padding: 0;
@@ -39,7 +47,7 @@
         font-family: sans-serif;
         /* background: #000; */
       }
-      button {
+      .buttonrouter {
         border: none;
         outline: none;
         padding: 5px 15px;
@@ -56,7 +64,7 @@
         border-radius: 100px;
       }
 
-      button:hover {
+      .buttonrouter:hover {
         color: #fe4e01;
         border: 3px solid #fe4e01;
       }
