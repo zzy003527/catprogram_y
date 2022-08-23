@@ -22,8 +22,13 @@ const handleError = (err: any) => {
     throw err;
 }
 
+// 上传表单
+const apply = async (params) => {
+    return await request.post<string>("http://127.0.0.1:4523/m1/1473415-0-default/apply", qs.stringify(params));
+}
 export {
     getBanner,
     login,
-    handleError
+    handleError,
+    apply
 }

@@ -12,14 +12,20 @@ window.addEventListener('DOMContentLoaded', function () {
   let cards = document.getElementsByClassName("inner");
   for (let i = 0; i < cards.length; i++) {
     cards[i].addEventListener("mousemove", function (event) {
-      cursor.classList.add("active");
+      if (cursor) {
+        cursor.classList.add("active");
+      }
     });
     cards[i].addEventListener("mouseover", function (event) {
-      cursor.classList.add("active");
+      if (cursor) {
+        cursor.classList.add("active");
+      }
     });
 
     cards[i].addEventListener("mouseout", function (event) {
-      cursor.classList.remove("active");
+      if (cursor) {
+        cursor.classList.remove("active");
+      }
     });
     cards[i].addEventListener(
       "click",
@@ -34,13 +40,19 @@ window.addEventListener('DOMContentLoaded', function () {
 
   for (link of links) {
     link.addEventListener("mouseover", function (event) {
-      cursor.classList.add("linkhover");
+      if (cursor) {
+        cursor.classList.add("linkhover");
+      }
     });
     link.addEventListener("mousemove", function (event) {
-      cursor.classList.add("linkhover");
+      if (cursor) {
+        cursor.classList.add("linkhover");
+      }
     });
     link.addEventListener("mouseout", function (event) {
-      cursor.classList.remove("linkhover");
+      if (cursor) {
+        cursor.classList.remove("linkhover");
+      }
     });
   }
 
@@ -93,7 +105,6 @@ window.addEventListener('DOMContentLoaded', function () {
   window.addEventListener("mousemove", (e) => {
     mouse.x = e.x;
     mouse.y = e.y;
-    // console.log(mouse.x,mouse.y,"pos:",pos.x,pos.y);
   });
 
   function gsapadd() {
@@ -104,7 +115,6 @@ window.addEventListener('DOMContentLoaded', function () {
       pos.y += (mouse.y - pos.y) * dt;
       xSet(pos.x);
       ySet(pos.y);
-      // console.log(mouse.x,mouse.y,"pos:",pos.x,pos.y);
     });
   }
   gsapadd()
@@ -114,7 +124,6 @@ window.addEventListener('DOMContentLoaded', function () {
   // Individual section scroll progress
 
   gsap.utils.toArray(".panel").forEach((section, index) => {
-    console.log(this);
     gsap.to(this, {
       scrollTrigger: {
         trigger: section,
@@ -156,4 +165,5 @@ window.addEventListener('DOMContentLoaded', function () {
   // Pull out the preloader
 
   body.classList.add("loaded");
+
 })

@@ -39,16 +39,16 @@ onMounted(() => {
         <!-- 轮播的图片 -->
         <ul class="imgs" ref="imgs">
             <li class="one" ref="one">
-                <a href="javascript:;"><img src="../assets/cat1.jpg" alt=""></a>
+                <a href="javascript:;"><img src="/cat1.jpg" alt=""></a>
             </li>
             <li class="two" ref="two">
-                <a href="javascript:;"><img src="../assets/cat2.jpg" alt=""></a>
+                <a href="javascript:;"><img src="/cat2.jpg" alt=""></a>
             </li>
             <li class="three" ref="three">
-                <a href="javascript:;"><img src="../assets/cat3.jpg" alt=""></a>
+                <a href="javascript:;"><img src="/cat3.jpg" alt=""></a>
             </li>
             <li class="four" ref="four">
-                <a href="javascript:;"><img src="../assets/cat4.jpg" alt=""></a>
+                <a href="javascript:;"><img src="/cat4.jpg" alt=""></a>
             </li>
         </ul>
     </div>
