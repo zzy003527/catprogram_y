@@ -1,7 +1,7 @@
 <template>
-  <el-button text @click="dialogTableVisible = true">open a Table nested Dialog</el-button>
+  <!-- <el-button text @click="dialogTableVisible = true">open a Table nested Dialog</el-button> -->
   <router-link class="list-group-item" @click="store.state.dialogTableVisible = true" active-class="active" to="/login">
-    login
+    登录
   </router-link>
   <el-dialog custom-class="loginWindow" v-model="store.state.dialogTableVisible" draggable>
     <template #header="{}" custom-class="loginHeader">
@@ -14,15 +14,15 @@
   </el-dialog>
 
 
-  <button>anniu</button>
+  <!-- <button>anniu</button> -->
 
 </template>
 
 <script lang='ts' setup>
-import { ref } from 'vue'
-import store from '../store';
+// import { ref } from 'vue'
+import store from '../../store/index';
 
-const dialogTableVisible = ref(false)
+// const dialogTableVisible = ref(false)
 console.log(store.state.dialogTableVisible);
 store.state.dialogTableVisible = false
 console.log(store.state.dialogTableVisible);
@@ -63,9 +63,9 @@ console.log(store.state.dialogTableVisible);
   padding-bottom: 0;
   width: 440px;
   height: 251px;
-  background-image: url(/public/login.jpg);
+  background-image: url(/login.jpg);
   border-radius: 10px 10px 0 0;
-  background: right top no-repeat url(/public/login.jpg);
+  background: right top no-repeat url(/login.jpg);
   background-size: 484px 296px;
 }
 

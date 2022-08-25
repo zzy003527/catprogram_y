@@ -11,18 +11,18 @@ const four = ref()
 // 注意，这里如果不在挂载后输出到控制台，控制台是看不到dom元素的
 onMounted(() => {
     let num = ['one','two','three','four'];
-    setInterval(() => {
+        setInterval(() => {
         //把数组的最后一个添加到第一个
         num.unshift(num[3]);
         //删除最后一个
         num.pop();
+        if(one.value && two.value && three.value && four.value) {
         one.value.className = num[0]
         two.value.className = num[1]
         three.value.className = num[2]
         four.value.className = num[3]
+        }
     }, 2000);
-
-
 })
 
 
@@ -39,16 +39,16 @@ onMounted(() => {
         <!-- 轮播的图片 -->
         <ul class="imgs" ref="imgs">
             <li class="one" ref="one">
-                <a href="javascript:;"><img src="../assets/cat1.jpg" alt=""></a>
+                <a href="javascript:;"><img src="/cat1.jpg" alt=""></a>
             </li>
             <li class="two" ref="two">
-                <a href="javascript:;"><img src="../assets/cat2.jpg" alt=""></a>
+                <a href="javascript:;"><img src="/cat2.jpg" alt=""></a>
             </li>
             <li class="three" ref="three">
-                <a href="javascript:;"><img src="../assets/cat3.jpg" alt=""></a>
+                <a href="javascript:;"><img src="/cat3.jpg" alt=""></a>
             </li>
             <li class="four" ref="four">
-                <a href="javascript:;"><img src="../assets/cat4.jpg" alt=""></a>
+                <a href="javascript:;"><img src="/cat4.jpg" alt=""></a>
             </li>
         </ul>
     </div>

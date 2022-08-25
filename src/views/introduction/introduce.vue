@@ -5,6 +5,10 @@ import introducebutton from './introducebutton.vue'
 // 引入所需方法
 import { Router, useRouter } from 'vue-router' 
 
+
+
+
+
 // 声明router，用于编程式导航，相当于之前学的this.$router
 const router: Router = useRouter()
 
@@ -12,7 +16,6 @@ const router: Router = useRouter()
 const BackIntroduce = (): void => {
   router.push('/introduce')
 }
-
 
 
 </script>
@@ -30,7 +33,7 @@ const BackIntroduce = (): void => {
     <div class='thumb'>
       <div class='inner'>
         <router-link to="/introduce/introduceone" class="routerlink"></router-link>
-        <img class='invert' loading='lazy' src='../assets/cat.jpg'>
+        <img class='invert' loading='lazy' src='/cat.jpg'>
       </div>
     </div>
   </div>
@@ -39,7 +42,7 @@ const BackIntroduce = (): void => {
     <div class='thumb'>
       <div class='inner'>
         <router-link to="/introduce/introducetwo" class="routerlink"></router-link>
-        <img class='light' loading='lazy' src='../assets/cat.jpg'>
+        <img class='light' loading='lazy' src='/cat.jpg'>
       </div>
     </div>
   </div>
@@ -48,7 +51,7 @@ const BackIntroduce = (): void => {
     <div class='thumb'>
       <div class='inner'>
         <router-link to="/introduce/introducethree" class="routerlink"></router-link>
-        <img loading='lazy' src='../assets/cat.jpg'>
+        <img loading='lazy' src='/cat.jpg'>
       </div>
     </div>
   </div>
@@ -57,7 +60,7 @@ const BackIntroduce = (): void => {
     <div class='thumb'>
       <div class='inner'>
         <router-link to="/introduce/introducefour" class="routerlink" ></router-link>
-        <img loading='lazy' src='../assets/cat.jpg'>
+        <img loading='lazy' src='/cat.jpg'>
       </div>
     </div>
   </div>
@@ -73,16 +76,12 @@ const BackIntroduce = (): void => {
   <div class='frame-wrap'>
     <div class='frame-container' id="frame-container">
         <!-- 子级路由占位符 -->
-        <router-view></router-view>
-      <!-- <iframe id='pen' loading='lazy' src='' style='border:0'></iframe> -->
-      <!-- <a id='penlink' target='_blank'><strong>View the Code <span>&rarr;</span></strong></a> -->
+          <router-view></router-view>
     </div>
   </div>
 </div>
 
-<!-- ----------------------------------------- -->
 
-<!-- ----------------------------------------- -->
 
 
 <div id='cursor'>

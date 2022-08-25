@@ -12,14 +12,20 @@ window.addEventListener('DOMContentLoaded', function () {
   let cards = document.getElementsByClassName("inner");
   for (let i = 0; i < cards.length; i++) {
     cards[i].addEventListener("mousemove", function (event) {
-      cursor.classList.add("active");
+      if (cursor) {
+        cursor.classList.add("active");
+      }
     });
     cards[i].addEventListener("mouseover", function (event) {
-      cursor.classList.add("active");
+      if (cursor) {
+        cursor.classList.add("active");
+      }
     });
 
     cards[i].addEventListener("mouseout", function (event) {
-      cursor.classList.remove("active");
+      if (cursor) {
+        cursor.classList.remove("active");
+      }
     });
     cards[i].addEventListener(
       "click",
@@ -34,13 +40,19 @@ window.addEventListener('DOMContentLoaded', function () {
 
   for (link of links) {
     link.addEventListener("mouseover", function (event) {
-      cursor.classList.add("linkhover");
+      if (cursor) {
+        cursor.classList.add("linkhover");
+      }
     });
     link.addEventListener("mousemove", function (event) {
-      cursor.classList.add("linkhover");
+      if (cursor) {
+        cursor.classList.add("linkhover");
+      }
     });
     link.addEventListener("mouseout", function (event) {
-      cursor.classList.remove("linkhover");
+      if (cursor) {
+        cursor.classList.remove("linkhover");
+      }
     });
   }
 
@@ -95,14 +107,17 @@ window.addEventListener('DOMContentLoaded', function () {
     mouse.y = e.y;
   });
 
-  gsap.ticker.add(() => {
-    const dt = 1.0 - Math.pow(1.0 - speed, gsap.ticker.deltaRatio());
+  function gsapadd() {
+    gsap.ticker.add(() => {
+      const dt = 1.0 - Math.pow(1.0 - speed, gsap.ticker.deltaRatio());
 
-    pos.x += (mouse.x - pos.x) * dt;
-    pos.y += (mouse.y - pos.y) * dt;
-    xSet(pos.x);
-    ySet(pos.y);
-  });
+      pos.x += (mouse.x - pos.x) * dt;
+      pos.y += (mouse.y - pos.y) * dt;
+      xSet(pos.x);
+      ySet(pos.y);
+    });
+  }
+  gsapadd()
 
   Splitting();
 
@@ -150,4 +165,5 @@ window.addEventListener('DOMContentLoaded', function () {
   // Pull out the preloader
 
   body.classList.add("loaded");
+
 })

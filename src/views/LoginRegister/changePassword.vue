@@ -26,7 +26,7 @@
         >确认
       </el-button>   
       <div> <router-link class="list-group-item" 
-                       active-class="active" to="/login">返回登陆</router-link></div>
+                       active-class="active" to="/introduce/login">返回登陆</router-link></div>
       </div>
   </el-form>
 </template>

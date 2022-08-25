@@ -9,7 +9,7 @@
 //这是axios配置的ts文件 
 
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import store from '../store/index';
+// import store from '../store/index';
 import { ElMessage } from "element-plus";
 import qs from 'qs';
 
@@ -160,7 +160,6 @@ service.interceptors.response.use((response: AxiosResponse) => {
     }
 }, (error: any) => {
     // console.log('请求错误', error, axios.isCancel(error), error.message);
-
     if (axios.isCancel(error)) { // 取消请求
         if (isRemove) { // 路由切换导致的取消请求，不提示
             // console.log('重复请求: ' + error.message);

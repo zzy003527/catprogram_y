@@ -8,7 +8,7 @@
     </el-form-item>
     <div>
       <span class="forgetPassword">
-        <router-link class="list-group-item" active-class="active" to="/forgetPassword">忘记密码？</router-link>
+        <router-link class="list-group-item" active-class="active" to="/introduce/forgetPassword">忘记密码？</router-link>
       </span>
     </div>
     <div class="loginFooter">
@@ -19,7 +19,7 @@
   </el-form>
   <el-divider />
 
-  还没有账号？ <router-link class="list-group-item" active-class="active" to="/register">注册账号</router-link>
+  还没有账号？ <router-link class="list-group-item" active-class="active" to="/introduce/register">注册账号</router-link>
 </template>
 
 
@@ -27,8 +27,8 @@
 import { ref, reactive } from 'vue'
 import type { FormInstance } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { login, handleError } from '../request/requestApi'
-import store from '../store';
+import { login, handleError } from '../../request/requestApi'
+import store from '../../store/index';
 const checked1 = ref(true)
 //设置学号和密码不能够为空
 const ruleFormRef = ref<FormInstance>()
@@ -145,9 +145,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
   padding-bottom: 0;
   width: 440px;
   height: 251px;
-  background-image: url(/public/login.jpg);
+  background-image: url(../../../public/login.jpg);
   border-radius: 10px 10px 0 0;
-  background: right top no-repeat url(/public/login.jpg);
+  background: right top no-repeat url(../../../public/login.jpg);
   background-size: 484px 296px;
 }
 

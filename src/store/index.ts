@@ -2,7 +2,8 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    dialogTableVisible: true
+    // 控制登录卡片的变量
+    dialogTableVisible: true,
   },
   getters: {
   },
