@@ -10,6 +10,7 @@ const httpApi = {
     banner: config.rootUrl + 'home/banner', // banner
     login: config.rootUrl + 'user/login', // 用户登录
     apply: config.rootUrl + '/apply', //报名表提交
+    userProgress: config.rootUrl + 'cat/user/searchProgress' //查看用户进度
 }
 
 export default httpApi;

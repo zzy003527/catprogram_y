@@ -84,6 +84,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
         else {
           sucessLogin()
           store.state.dialogTableVisible = false
+          //登陆成功的时候根据是否勾选七天免登陆来判断把token存储到localstorage里面还是sessionstorage
+          if (checked1.value == true) {
+            localStorage.setItem('token', `${res.obj}`);
+          }
+          else {
+            sessionStorage.setItem('token', `${res.obj}`);
+          }
 
         }
         return res

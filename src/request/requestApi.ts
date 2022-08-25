@@ -26,9 +26,14 @@ const handleError = (err: any) => {
 const apply = async (params) => {
     return await request.post<string>("http://127.0.0.1:4523/m1/1473415-0-default/apply", qs.stringify(params));
 }
+//查看用户进度
+const userProgress = async (params) => {
+    return await request.post<string>(httpUrl.userProgress, qs.stringify(params));
+}
 export {
     getBanner,
     login,
     handleError,
-    apply
+    apply,
+    userProgress
 }
