@@ -22,7 +22,7 @@ const service = axios.create({
         // 'Content-Type': 'application/json;charset=utf-8'
     },
     withCredentials: false, // 跨域请求时是否需要使用凭证
-    timeout: 30000,
+    timeout: 3000,
     // `validateStatus` 定义对于给定的 HTTP 响应状态码是 resolve 或 reject  promise 。
     validateStatus() {
         // `validateStatus` 返回 `true` (或者设置为 `null` 或 `undefined`)，promise 将被 resolve; 否则，promise 将被 rejecte
@@ -102,9 +102,7 @@ service.interceptors.request.use((config: AxiosRequestConfig) => {
 
     removePending(config); // 在请求开始前，对之前的请求做检查取消操作
     addPending(config); // 将当前请求添加到 pending 中
-
     // 这里可以对token进行操作
-
     return config;
 }, (error: any) => {
     // console.log('发送请求错误', error.response, error.data);
@@ -115,6 +113,7 @@ service.interceptors.request.use((config: AxiosRequestConfig) => {
     };
 
     return Promise.reject(error);
+
 });
 
 //添加响应拦截器
@@ -140,30 +139,31 @@ service.interceptors.response.use((response: AxiosResponse) => {
             showClose: true
         });
         return Promise.reject(response.data);
-    }else { // 接口连接成功
-            if(response.data.code == 200){
-                return response.data
-            }else { // 接口报错
-                if(response.config.url){
-                    if(response.config.url.indexOf('login') > -1){
-                        store.commit('user/SET_LOGIN_ERR_MSG', response.data.data)
-                        store.commit('user/SET_TOKEN', '')
-                    }else{
-                        ElMessage({
-                            message: response.data.data || response.data.message,
-                            type: 'error',
-                            showClose: true
-                        });
-                    }
-                    throw response;// 抛出错误
+
+    } else { // 接口连接成功
+        if (response.data.code == 200) {
+            return response.data
+        } else { // 接口报错
+            if (response.config.url) {
+                if (response.config.url.indexOf('login') > -1) {
+                    store.commit('user/SET_LOGIN_ERR_MSG', response.data.data)
+                    store.commit('user/SET_TOKEN', '')
+                } else {
+                    ElMessage({
+                        message: response.data.data || response.data.message,
+                        type: 'error',
+                        showClose: true
+                    });
                 }
+                throw response;// 抛出错误
             }
+        }
     }
 }, (error: any) => {
     // console.log('请求错误', error, axios.isCancel(error), error.message);
 
     if (axios.isCancel(error)) { // 取消请求
-        if(isRemove){ // 路由切换导致的取消请求，不提示
+        if (isRemove) { // 路由切换导致的取消请求，不提示
             // console.log('重复请求: ' + error.message);
             ElMessage({
                 message: '请勿重复请求',
@@ -182,6 +182,7 @@ service.interceptors.response.use((response: AxiosResponse) => {
     }
 
     return Promise.reject(error);
+
 });
 
 const showStatus = (status: number) => {
