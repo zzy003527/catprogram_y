@@ -2,13 +2,22 @@
 // 引入所需方法
 // import { Router, useRouter } from 'vue-router' 
 import { useStore } from 'vuex'
+// 引入所需方法
+import { Router, useRouter } from 'vue-router' 
 
+
+// 声明router，用于编程式导航，相当于之前学的this.$router
+const router: Router = useRouter()
 
 // 用useStore方法获取到vuex的store对象
 let store = useStore()
 store.state.dialogTableVisible = false
 
 
+// 在关闭登录注册框的时候将路由变回introduce
+function closeLoginBox() {
+  router.push('/introduce')
+}
 
 </script>
 
@@ -20,7 +29,7 @@ store.state.dialogTableVisible = false
     <router-link class="list-group-item buttonrouter" id="introducebuttonone" @click="store.state.dialogTableVisible = true" active-class="active" to="/introduce/login">
     登录
   </router-link>
-  <el-dialog custom-class="loginWindow" v-model="store.state.dialogTableVisible" draggable>
+  <el-dialog custom-class="loginWindow" v-model="store.state.dialogTableVisible" draggable @close="closeLoginBox">
     <template #header="{}" custom-class="loginHeader">
       <div class="my-header loginHeader">
         <h5 class="loginHeaderTitle">cat</h5>

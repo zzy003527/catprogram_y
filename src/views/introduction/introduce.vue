@@ -5,10 +5,6 @@ import introducebutton from './introducebutton.vue'
 // 引入所需方法
 import { Router, useRouter } from 'vue-router' 
 
-
-
-
-
 // 声明router，用于编程式导航，相当于之前学的this.$router
 const router: Router = useRouter()
 

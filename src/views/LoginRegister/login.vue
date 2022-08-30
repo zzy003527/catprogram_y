@@ -138,9 +138,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
   padding-bottom: 0;
   width: 440px;
   height: 251px;
-  background-image: url(../../../public/login.jpg);
+  background-image: url(/login.jpg);
   border-radius: 10px 10px 0 0;
-  background: right top no-repeat url(../../../public/login.jpg);
+  background: right top no-repeat url(/login.jpg);
   background-size: 484px 296px;
 }
 
