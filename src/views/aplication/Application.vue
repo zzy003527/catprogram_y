@@ -1,62 +1,70 @@
 <template>
+  <div h="auto" w="auto" m="20" class="table" :style="{
+    boxShadow: `var(${getCssVarName('light')})`
+  }">
+    <!-- 表单部分 -->
+    <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="80px" class="demo-ruleForm"
+      style="width:640px">
+      <el-row>
+        <el-col :span="12">
+          <!-- 基础信息 -->
+          <el-form-item label="姓名" prop="name">
+            <el-input v-model="ruleForm.name" type="text" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="性别" prop="sex">
+            <el-radio-group v-model="ruleForm.sex">
+              <el-radio label="1" style="width:68px">男</el-radio>
+              <el-radio label="0" style="width:68px">女</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="学号" prop="number">
+            <el-input v-model="ruleForm.number" type="text" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="学院" prop="college">
+            <el-input v-model="ruleForm.college" type="text" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="专业" prop="discipline">
+            <el-input v-model="ruleForm.discipline" type="text" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="手机" prop="phone">
+            <el-input v-model="ruleForm.phone" type="text" autocomplete="off" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="11" style="margin-left:10px ;">
+          <!-- 自我介绍 -->
+          <el-form-item label="自我介绍" prop="introduction" label-position="top">
+            <el-input v-model="ruleForm.introduction" :rows="8" type="textarea" show-word-limit:true />
+          </el-form-item>
+          <!-- 选择报名方向 -->
+          <el-form-item label="方向" prop="direction">
+            <el-radio-group v-model="ruleForm.direction">
+              <el-radio label="1" border style="width:89px">前端</el-radio>
+              <el-radio label="2" border style="width:89px">后台</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <!-- 上传照片 -->
+          <ApplicationPhoto />
+        </el-col>
+      </el-row>
+      <!-- 提交及重置按钮 -->
+      <ApplicationSubmit :ruleFormRef="ruleFormRef" :ruleForm="ruleForm" @resert="resetForm(ruleFormRef)"
+        @check="formCheck(ruleFormRef)" class="application" />
+    </el-form>
+  </div>
 
-  <!-- 表单部分 -->
-  <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="80px" class="demo-ruleForm"
-    style="width:640px">
-    <el-row>
-      <el-col :span="12">
-        <!-- 基础信息 -->
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="ruleForm.name" type="text" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="性别" prop="sex">
-          <el-radio-group v-model="ruleForm.sex">
-            <el-radio label="1" style="width:68px">男</el-radio>
-            <el-radio label="0" style="width:68px">女</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="学号" prop="number">
-          <el-input v-model="ruleForm.number" type="text" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="学院" prop="college">
-          <el-input v-model="ruleForm.college" type="text" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="专业" prop="discipline">
-          <el-input v-model="ruleForm.discipline" type="text" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="手机" prop="phone">
-          <el-input v-model="ruleForm.phone" type="text" autocomplete="off" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="11" style="margin-left:10px ;">
-        <!-- 自我介绍 -->
-        <el-form-item label="自我介绍" prop="introduction" label-position="top">
-          <el-input v-model="ruleForm.introduction" :rows="8" type="textarea" placeholder="Please input"
-            show-word-limit:true />
-        </el-form-item>
-        <!-- 选择报名方向 -->
-        <el-form-item label="方向" prop="direction">
-          <el-radio-group v-model="ruleForm.direction">
-            <el-radio label="1" border style="width:89px">前端</el-radio>
-            <el-radio label="2" border style="width:89px">后台</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <!-- 上传照片 -->
-        <ApplicationPhoto />
-      </el-col>
-    </el-row>
-    <!-- 提交及重置按钮 -->
-    <ApplicationSubmit :ruleFormRef="ruleFormRef" :ruleForm="ruleForm" @resert="resetForm(ruleFormRef)"
-      @check="formCheck(ruleFormRef)" class="application" />
-  </el-form>
 
 </template>
 
 
 <style scoped>
-/* .direction{
+.table {
+  padding: 50px;
+  padding-bottom: 80px;
+  border-radius: 15px;
+  box-shadow: 33px;
+  background-color: white;
+}
 
-  } */
 el-input {
   width: 120px;
 }
@@ -81,6 +89,10 @@ import ApplicationSubmit from './ApplicationSubmit.vue'
 import { reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
 
+// 样式
+const getCssVarName = (type: string) => {
+  return `--el-box-shadow${type ? '-' : ''}${type}`
+}
 // 输入内容及规则部分
 const ruleFormRef = ref<FormInstance>()
 
