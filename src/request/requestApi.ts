@@ -18,15 +18,15 @@ const login = async (params) => {
 // ---------------------------------------------------------------------------------------------------------------------------------------
 // 上传表单
 const apply = async (params) => {
-    return await request.post<string>("http://127.0.0.1:4523/m1/1473415-0-default/apply", qs.stringify(params));
+    return await request.post<string>(httpUrl.apply, qs.stringify(params));
 }
 //获取预约信息
 const BookData = async (params) => {
-    return await request.post('http://127.0.0.1:4523/m1/1473415-0-default/cat/reservation/number', qs.stringify(params));
+    return await request.post(httpUrl.BookData, qs.stringify(params));
 }
 //用户提交预约时间
 const timeSubmit = async (params) => {
-    return await request.post<string>('http://127.0.0.1:4523/m1/1473415-0-default/cat/reservation/reservation/add', qs.stringify(params));
+    return await request.post<string>(httpUrl.timeSubmit, qs.stringify(params));
 }
 const handleError = (err: any) => {
     // console.log("请求错误", err);
