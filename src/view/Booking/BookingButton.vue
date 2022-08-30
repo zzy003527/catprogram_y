@@ -5,9 +5,9 @@
 
 <script setup lang="ts">
 import { ref, defineProps } from 'vue'
-import { handleError } from '../../request/requestApi'
+import { handleError, timeSubmit, bookCancel } from '../../request/requestApi'
 // import { toRaw } from '@vue/reactivity';
-import axios from 'axios'
+import { ElMessageBox } from 'element-plus'
 
 let props = defineProps({
     // 接受按钮所在行的数据
@@ -23,62 +23,61 @@ let props = defineProps({
 
 //按钮样式
 const btnType = ref('primary')
-
+const typeFull = () => {
+    btnType.value = 'info'
+}
 // 上传函数
 let last = 0
 const bookSubmit = () => {
     // 节流
     let now = new Date().getTime()
-    if (now - last < 2000) {
-        return
+    if (now - last < 200) {
+        return 0
     }
     // 判断当前状态
     if (props.scope.row.tag == '预约') {
-        btnType.value = 'info'
-        props.scope.row.tag = '预约中'
-        axios({
-            url: 'http://127.0.0.1:4523/m1/1473415-0-default/cat/reservation/reservation/add',
-            method: 'post',
-            params: {
-                time: props.scope.row.timeQuantum
+        // 封装使用
+        timeSubmit({ time: props.scope.row.timeQuantum }).then(res => {
+            if (res.resultStatus == 404) {
+                ElMessageBox.alert(res.resultIns, '提示', {
+                    // if you want to disable its autofocus
+                    // autofocus: false,
+                    confirmButtonText: 'OK',
+                    callback: () => {
+                        console.log(res);
+                    },
+                })
+                return 0
             }
-        }).then(res => {
-            res
-            btnType.value = 'success'
-            props.scope.row.tag = '预约成功'
-            setTimeout(() => {
-                btnType.value = 'danger'
-                props.scope.row.tag = '取消预约'
-            }, 1500);
-            // 更新表格
-            props.refresh
+            ElMessageBox.alert('预约成功', '提示', {
+                confirmButtonText: 'OK',
+            })
+            btnType.value = 'danger'
+            props.scope.row.tag = '取消预约'
         }).catch(handleError)
     }
     if (props.scope.row.tag == '取消预约') {
-        btnType.value = 'info'
-        props.scope.row.tag = '取消ing'
-        axios({
-            url: 'http://127.0.0.1:4523/m1/1473415-0-default/cat/reservation/reservation/del',
-            method: 'post',
-            params: {
-                time: props.scope.row.timeQuantum
+        bookCancel({ time: props.scope.row.timeQuantum }).then(res => {
+            if (res.resultStatus == 404) {
+                ElMessageBox.alert(res.resultIns, '提示', {
+                    confirmButtonText: 'OK',
+                })
+                return 0
             }
-        }).then(res => {
-            console.log(res);
-            btnType.value = 'warning'
-            props.scope.row.tag = '取消成功'
-            setTimeout(() => {
-                btnType.value = 'primary'
-                props.scope.row.tag = '预约'
-            }, 1500);
-            // 更新表格
-            props.refresh()
+            if (res.resultStatus != 200) {
+                ElMessageBox.alert('取消失败', '提示', {
+                    confirmButtonText: 'OK',
+                })
+                return 0
+            }
+            ElMessageBox.alert('取消成功', '提示', {
+                confirmButtonText: 'OK',
+            })
+            btnType.value = 'primary'
+            props.scope.row.tag = '预约'
         }).catch(handleError)
     }
-    //封装使用
-    // timeSubmit({ time: props.scope.row.timeQuantum }).then(res => {
-    //     console.log(res);
-    // }).catch(handleError)
+
     last = new Date().getTime()
 }
 
@@ -86,7 +85,7 @@ const btn = ref<any>(null)
 
 defineExpose({
     bookSubmit,
-    btn
+    typeFull
 })
 </script>
 
