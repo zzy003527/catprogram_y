@@ -123,5 +123,6 @@ const filterHandler = (
     padding: 50px;
     border-radius: 15px;
     box-shadow: 33px;
+    background-color: white;
 }
 </style>
