@@ -11,10 +11,13 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import { ElMessageBox } from 'element-plus'
 import { logout } from '../../request/requestApi'
-let isShow = false
-if (window.localStorage.getItem('token')) { isShow = true }
+// window.localStorage.setItem('token', '00')
+let isShow = ref(false)
+if (window.localStorage.getItem('token')) { isShow.value = true }
+console.log(isShow.value)
 const signout = () => {
     ElMessageBox.alert('真的要退出吗', '提示', {
         confirmButtonText: '是的',
@@ -28,7 +31,10 @@ const signoutCallback = () => {
         ElMessageBox.alert(res.resultIns, '提示', {
             confirmButtonText: '是的',
         })
-        if (res.resultStatus == 200) isShow = true
+        window.localStorage.removeItem('token')
+        console.log(isShow.value)
+
+        if (res.resultStatus == 200) { isShow.value = true }
     })
 }
 </script>
