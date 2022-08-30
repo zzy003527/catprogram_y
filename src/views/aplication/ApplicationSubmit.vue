@@ -10,7 +10,9 @@
 import { toRaw } from 'vue'
 import type { FormInstance } from 'element-plus'
 import type { PropType } from 'vue'
-import { apply } from '../request/requestApi';
+import { apply } from '../../request/requestApi';
+import { ElMessage, ElMessageBox } from 'element-plus'
+import type { Action } from 'element-plus'
 // import { emit } from 'process';
 // const axios = require('axios').default;
 
@@ -65,8 +67,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
 
 // 弹出窗口提示
 // import { ElMessageBox } from 'element-plus'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import type { Action } from 'element-plus'
+
 const open = (state: Boolean) => {
     if (state) ElMessageBox.alert('提交成功', '提示', {
         confirmButtonText: 'OK',
@@ -82,7 +83,6 @@ const open = (state: Boolean) => {
         callback: (action: Action) => {
             ElMessage({
                 type: 'info',
-                // message: `action: ${action}`,
                 message: `action: ${action}`,
             })
         },
