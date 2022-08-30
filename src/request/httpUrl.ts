@@ -8,8 +8,6 @@ const config = {
 
 const httpApi = {
     // 测试接口
-    banner: config.rootUrl + '/home/banner', // banner
-    login: config.rootUrl + '/user/login', // 用户登录
     apply: config.rootUrl + '/apply', //报名表提交
     timeSubmit: config.rootUrl + '/cat/reservation/reservation/add',//用户提交预约时间
     BookData: config.rootUrl + '/cat/reservation/number',//获取预约数据
