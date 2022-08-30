@@ -7,6 +7,11 @@ import qs from "qs";
 
 
 
+const handleError = (err: any) => {
+    // console.log("请求错误", err);
+    throw err;
+}
+// ---------------------------------------------------------------------------------------------------------------------------------------
 // 上传表单
 const apply = async (params) => {
     return await request.post<string>(httpUrl.apply, qs.stringify(params));
@@ -30,6 +35,7 @@ const userProgress = async (params) => {
     return await request.post<string>(httpUrl.userProgress, qs.stringify(params));
 }
 export {
+    handleError,
     apply,
     BookData,
     timeSubmit,

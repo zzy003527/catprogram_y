@@ -9,6 +9,14 @@ import IntroduceOne from "../views/introduction/children/introduce_one.vue"
 import IntroduceTwo from "../views/introduction/children/introduce_two.vue"
 import IntroduceThree from "../views/introduction/children/introduce_three.vue"
 import IntroduceFour from "../views/introduction/children/introduce_four.vue"
+// 后台主页
+import backPage from "../views/backPage.vue"
+// 报名页面
+import Application from "../views/aplication/Application.vue"
+// 预约面试页面
+import Booking from "../views/Booking/Booking.vue"
+// 查看用户进度页面
+import UserProgress from "../views/userprogress/userProgress.vue"
 
 
 
@@ -22,7 +30,6 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/introduce',
         component: Introduce,
-        // redirect: '/introduce/introduceone',
         // 介绍页面路由的子路由
         children: [
             {
@@ -57,6 +64,26 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'changePassword',
                 component: changePassword
+            }
+        ]
+    },
+    // 后台主页
+    {
+        path: '/backPage',
+        component: backPage,
+        redirect: '/backPage/application',
+        children: [
+            {
+                path: 'application',
+                component: Application
+            },
+            {
+                path: 'booking',
+                component: Booking
+            },
+            {
+                path: 'userprogress',
+                component: UserProgress
             }
         ]
     }

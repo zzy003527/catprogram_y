@@ -96,7 +96,7 @@
 </template>
 
 <script lang='ts' setup>
-import { userProgress, handleError } from '../request/requestApi'
+import { userProgress, handleError } from '../../request/requestApi'
 import { ref, reactive } from 'vue'
 let userMsg
 let username = ref('')
