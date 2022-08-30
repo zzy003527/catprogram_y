@@ -15,6 +15,10 @@ const getBanner = async () => {
 const login = async (params) => {
     return await request.post<string>(httpUrl.login, qs.stringify(params));
 }
+const handleError = (err: any) => {
+    // console.log("请求错误", err);
+    throw err;
+}
 // ---------------------------------------------------------------------------------------------------------------------------------------
 // 上传表单
 const apply = async (params) => {
@@ -32,12 +36,12 @@ const timeSubmit = async (params) => {
 const bookCancel = async (params) => {
     return await request.post<string>(httpUrl.bookCancel, qs.stringify(params));
 }
-const handleError = (err: any) => {
-    // console.log("请求错误", err);
-    throw err;
+
+
+//查看用户进度
+const userProgress = async (params) => {
+    return await request.post<string>(httpUrl.userProgress, qs.stringify(params));
 }
-
-
 export {
     getBanner,
     login,
@@ -45,5 +49,6 @@ export {
     apply,
     BookData,
     timeSubmit,
-    bookCancel
+    bookCancel,
+    userProgress
 }
