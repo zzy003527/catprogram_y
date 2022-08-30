@@ -3,7 +3,7 @@
 
 
 const config = {
-    rootUrl: "http://106.52.239.206:8080/cat/",
+    rootUrl: "http://127.0.0.1:4523/m1/1473415-0-default",
 };
 
 const httpApi = {
@@ -11,9 +11,9 @@ const httpApi = {
     banner: config.rootUrl + '/home/banner', // banner
     login: config.rootUrl + '/user/login', // 用户登录
     apply: config.rootUrl + '/apply', //报名表提交
-    timeSubmit: config.rootUrl + '/cat/reservation/reservation/add',
-    BookData: config.rootUrl + '/cat/reservation/number'
-
+    timeSubmit: config.rootUrl + '/cat/reservation/reservation/add',//用户提交预约时间
+    BookData: config.rootUrl + '/cat/reservation/number',//获取预约数据
+    bookCancel: config.rootUrl + '/cat/reservation/reservation/del',//删除预约
 }
 
 export default httpApi;

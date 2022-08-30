@@ -1,5 +1,5 @@
 <template>
-    <el-button ref="btn" size="small" :type="btnType" id="0" @click="bookSubmit">{{ props.scope.row.tag }}
+    <el-button ref="btn" size="small" :type="btnType" id="0" @click="bookSubmit">{{  props.scope.row.tag  }}
     </el-button>
 </template>
 

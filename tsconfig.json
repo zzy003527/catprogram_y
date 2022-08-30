@@ -30,7 +30,7 @@
     "noImplicitAny": false,
     "skipLibCheck": true,
     "paths": {
-      "@/*": [
+      "/@/*": [
         "src/*"
       ],
       "/#/*": [

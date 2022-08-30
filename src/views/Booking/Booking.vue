@@ -2,7 +2,7 @@
     <div h="auto" w="auto" m="20" class="table" :style="{
         boxShadow: `var(${getCssVarName('light')})`
     }">
-        <el-table ref="tableRef" row-key="date" :data="toRaw(tableData)" style="width: 100%;" size="large">
+        <el-table ref="tableRef" row-key="date" :data="toRaw(tableData)" size="large">
             <el-table-column prop="date" label="日期" width="180" column-key="date" :filters="
                 // [ { text: '2016-05-01', value: '2016-05-01' }]
                 filteArray
@@ -17,7 +17,7 @@
                 <template #default="scope">
                     <!-- <el-tag :type="scope.row.tag === 'true' ? '' : 'success'" disable-transitions>{{ scope.row.tag }}
                 </el-tag> -->
-                    <booking-button ref="sonBtn" :scope="scope" :refresh='dataFill' />
+                    <booking-button ref="sonBtn" :scope="scope" />
                 </template>
             </el-table-column>
         </el-table>
@@ -31,9 +31,9 @@
 import { ElTable } from 'element-plus'
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
 // import { BookData } from '../../request/requestApi';
-import axios from 'axios'
 import { toRaw } from '@vue/reactivity';
 import { ref } from 'vue';
+import { handleError, BookData } from '/@/request/requestApi';
 import BookingButton from './BookingButton.vue'
 
 // 样式
@@ -51,6 +51,11 @@ interface User {
     availableNumber: number
     tag: string
 }
+// interface Data {
+//     obj: Array<object>
+//     resultIns: string
+//     resultStatus: string
+// }
 //筛选函数
 const filterTag = (value: string, row: User) => {
     return row.tag === value
@@ -61,42 +66,40 @@ const sonBtn = ref()
 // 输入表格数据格式
 let tableData = ref([] as User[])
 let filteArray = ref([] as Array<object>)
-const dataFill = () =>
-    axios({
-        url: 'http://127.0.0.1:4523/m1/1473415-0-default/cat/reservation/number',
-        method: 'post',
-        params: {
-            version: '0'
+BookData({
+    version: '0'
+}).then(res => {
+    console.log(res);
+
+    let dataArray: Array<User> = []
+    let data = res.obj
+    // let data = datause.obj
+    // 填充表格
+    filteArray.value = []
+    let filteArrayData: Array<string> = []
+    for (let i in data) {
+        // 表格数据
+        let obj = data[i].timetable
+        if (obj.availableNumber > 0) obj.tag = '预约'
+        else if (obj.availableNumber == 0) {
+            obj.tag = '已满', console.log(sonBtn.value);
         }
-    }).then(res => {
-        let dataArray: Array<User> = []
-        let data = res.data.obj
-        // 填充表格
-        filteArray.value = []
-        let filteArrayData: Array<string> = []
-        for (let i: number in data) {
-            // 表格数据
-            let obj = data[i].timetable
-            if (obj.availableNumber > 0) obj.tag = '预约'
-            else if (obj.availableNumber == 0) {
-                obj.tag = '已满', console.log(sonBtn.value);
-            }
-            obj.date = data[i].timetable.timeQuantum.split(' ')[0]
-            obj.time = data[i].timetable.timeQuantum.split(' ')[1].substring(0, 5)
-            dataArray.push(data[i].timetable)
-            // 筛选数据
-            let filterObj = { text: '', value: '' }
-            filterObj.text = obj.date
-            filterObj.value = obj.date
-            //判断该时间是否已存在于筛选数组
-            if (!filteArrayData.includes(obj.date)) {
-                filteArray.value.push(filterObj)
-                filteArrayData.push(obj.date)
-            }
+        obj.date = data[i].timetable.timeQuantum.split(' ')[0]
+        obj.time = data[i].timetable.timeQuantum.split(' ')[1].substring(0, 5)
+        dataArray.push(data[i].timetable)
+        // 筛选数据
+        let filterObj = { text: '', value: '' }
+        filterObj.text = obj.date
+        filterObj.value = obj.date
+        //判断该时间是否已存在于筛选数组
+        if (!filteArrayData.includes(obj.date)) {
+            filteArray.value.push(filterObj)
+            filteArrayData.push(obj.date)
         }
-        tableData.value = dataArray
-    })
-dataFill()
+    }
+    tableData.value = dataArray
+}).catch(handleError)
+
 //备用：一键解除筛选功能
 // const tableRef = ref<InstanceType<typeof ElTable>>()
 // const resetDateFilter = () => {

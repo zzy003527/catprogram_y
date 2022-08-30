@@ -28,6 +28,10 @@ const BookData = async (params) => {
 const timeSubmit = async (params) => {
     return await request.post<string>(httpUrl.timeSubmit, qs.stringify(params));
 }
+//用户取消预约
+const bookCancel = async (params) => {
+    return await request.post<string>(httpUrl.bookCancel, qs.stringify(params));
+}
 const handleError = (err: any) => {
     // console.log("请求错误", err);
     throw err;
@@ -40,5 +44,6 @@ export {
     handleError,
     apply,
     BookData,
-    timeSubmit
+    timeSubmit,
+    bookCancel
 }

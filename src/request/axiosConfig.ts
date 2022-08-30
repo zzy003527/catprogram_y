@@ -8,9 +8,8 @@
  */
 //这是axios配置的ts文件 
 
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import store from '../store/index';
-import { ElMessage } from "element-plus";
+import axios, { AxiosRequestConfig } from 'axios';
+
 import qs from 'qs';
 
 // 创建axios的实例
@@ -115,117 +114,5 @@ service.interceptors.request.use((config: AxiosRequestConfig) => {
     return Promise.reject(error);
 
 });
-
-//添加响应拦截器
-service.interceptors.response.use((response: AxiosResponse) => {
-    // console.log('响应拦截', response.status, response);
-
-    removePending(response); // 在请求结束后，移除本次请求
-
-    /* 处理 http 错误，抛到业务代码 */
-    const status = response.status;
-    const decide = status < 200 || status >= 300;
-    if (decide) { // http 错误
-        const message = showStatus(status);
-        // console.log("处理 http 错误", message);
-        if (typeof response.data === 'string') {
-            response.data = { message };
-        } else {
-            response.data.message = message;
-        }
-        ElMessage({
-            message,
-            type: 'error',
-            showClose: true
-        });
-        return Promise.reject(response.data);
-
-    } else { // 接口连接成功
-        if (response.data.code == 200) {
-            return response.data
-        } else { // 接口报错
-            if (response.config.url) {
-                if (response.config.url.indexOf('login') > -1) {
-                    store.commit('user/SET_LOGIN_ERR_MSG', response.data.data)
-                    store.commit('user/SET_TOKEN', '')
-                } else {
-                    ElMessage({
-                        message: response.data.data || response.data.message,
-                        type: 'error',
-                        showClose: true
-                    });
-                }
-                throw response;// 抛出错误
-            }
-        }
-    }
-}, (error: any) => {
-    // console.log('请求错误', error, axios.isCancel(error), error.message);
-
-    if (axios.isCancel(error)) { // 取消请求
-        if (isRemove) { // 路由切换导致的取消请求，不提示
-            // console.log('重复请求: ' + error.message);
-            ElMessage({
-                message: '请勿重复请求',
-                type: 'warning',
-                showClose: true
-            });
-            isRemove = false
-        }
-    } else {
-        const message = '请求超时或服务器异常，请检查网络或联系管理员！';
-        ElMessage({
-            message,
-            type: 'error',
-            showClose: true
-        });
-    }
-
-    return Promise.reject(error);
-
-});
-
-const showStatus = (status: number) => {
-    let message = '';
-    switch (status) {
-        case 400:
-            message = '请求错误(400)';
-            break;
-        case 401:
-            message = '未授权，请重新登录(401)';
-            break;
-        case 403:
-            message = '拒绝访问(403)';
-            break;
-        case 404:
-            message = '请求出错(404)';
-            break;
-        case 408:
-            message = '请求超时(408)';
-            break;
-        case 500:
-            message = '服务器错误(500)';
-            break;
-        case 501:
-            message = '服务未实现(501)';
-            break;
-        case 502:
-            message = '网络错误(502)';
-            break;
-        case 503:
-            message = '服务不可用(503)';
-            break;
-        case 504:
-            message = '网络超时(504)';
-            break;
-        case 505:
-            message = 'HTTP版本不受支持(505)';
-            break;
-        default:
-            message = `连接出错(${status})!`;
-    }
-    return message;
-    // return `${message}，请检查网络或联系管理员！`
-};
 
 export default service;
