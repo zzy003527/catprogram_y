@@ -34,11 +34,18 @@ const bookCancel = async (params) => {
 const userProgress = async (params) => {
     return await request.post<string>(httpUrl.userProgress, qs.stringify(params));
 }
+
+//退出登录
+const logout = async (params) => {
+    return await request.post<string>(httpUrl.logout, qs.stringify(params));
+}
+
 export {
     handleError,
     apply,
     BookData,
     timeSubmit,
     bookCancel,
-    userProgress
+    userProgress,
+    logout
 }
