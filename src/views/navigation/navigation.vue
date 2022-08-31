@@ -5,20 +5,20 @@
             <router-link to="/" class="right-item">主页</router-link>
             <router-link to="/backPage/application" class="right-item">报名</router-link>
             <router-link to="/backPage/booking" class="right-item">预约面试</router-link>
-            <a class="right-item" v-show="isShow" @click="signout"> 退出登录</a>
+            <a class="right-item" @click="signout"> 退出登录</a>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { ElMessageBox } from 'element-plus'
 import { logout } from '../../request/requestApi'
-// window.localStorage.setItem('token', '00')
-let isShow = ref(false)
-if (window.localStorage.getItem('token')) { isShow.value = true }
-console.log(isShow.value)
+import { Router, useRouter } from 'vue-router';
+const router: Router = useRouter()
+
+
 const signout = () => {
+    router.push('/')
     ElMessageBox.alert('真的要退出吗', '提示', {
         confirmButtonText: '是的',
         callback: () => {
@@ -32,9 +32,6 @@ const signoutCallback = () => {
             confirmButtonText: '是的',
         })
         window.localStorage.removeItem('token')
-        console.log(isShow.value)
-
-        if (res.resultStatus == 200) { isShow.value = true }
     })
 }
 </script>
