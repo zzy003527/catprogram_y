@@ -4,6 +4,7 @@
         <div class="right">
             <router-link to="/backPage/application" class="right-item">报名</router-link>
             <router-link to="/backPage/booking" class="right-item">预约面试</router-link>
+            <router-link to="/backPage/userProgress" class="right-item">面试进度</router-link>
             <a class="right-item" @click="signout"> 退出登录</a>
         </div>
     </div>
@@ -14,6 +15,8 @@ import { ElMessageBox } from 'element-plus'
 import { logout } from '../../request/requestApi'
 import { handleError } from '/@/request/requestApi';
 import httpUrl from '/@/request/httpUrl'
+
+// 退出登录部分
 const signout = () => {
 
     ElMessageBox.alert('真的要退出吗', '提示', {
@@ -29,8 +32,6 @@ const signoutCallback = () => {
         window.localStorage.removeItem('token')
         window.sessionStorage.removeItem('token')
         window.location.href = httpUrl.introduce
-        // 再次确认
-
     }).catch(err => {
         ElMessageBox.alert(err.resultIns, '提示', {
             confirmButtonText: 'OK',
