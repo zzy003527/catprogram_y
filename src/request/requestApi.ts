@@ -16,6 +16,7 @@ const handleError = (err: any) => {
 const apply = async (params) => {
     return await request.post<string>(httpUrl.apply, qs.stringify(params));
 }
+
 //获取预约信息
 const BookData = async (params) => {
     return await request.post(httpUrl.BookData, qs.stringify(params));
@@ -34,10 +35,13 @@ const bookCancel = async (params) => {
 const userProgress = async (params) => {
     return await request.post<string>(httpUrl.userProgress, qs.stringify(params));
 }
-
+//临时搞得，防止报错
+const login = async (params) => {
+    return await request.post<string>(httpUrl.userProgress, qs.stringify(params));
+}
 //退出登录
-const logout = async (params) => {
-    return await request.post<string>(httpUrl.logout, qs.stringify(params));
+const logout = async () => {
+    return await request.post<string>(httpUrl.logout);
 }
 
 export {
@@ -47,5 +51,6 @@ export {
     timeSubmit,
     bookCancel,
     userProgress,
-    logout
+    login,
+    logout,
 }
