@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from 'vue'
+import { ref } from 'vue'
 import { handleError, timeSubmit, bookCancel } from '../../request/requestApi'
 // import { toRaw } from '@vue/reactivity';
 import { ElMessageBox } from 'element-plus'
