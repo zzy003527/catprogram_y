@@ -24,11 +24,17 @@
 
 
 <script lang='ts' setup>
+// 引入所需方法
+import { Router, useRouter } from 'vue-router' 
 import { ref, reactive } from 'vue'
 import type { FormInstance } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { login, handleError } from '../../request/requestApi'
 import store from '../../store/index';
+
+// 声明router，用于编程式导航，相当于之前学的this.$router
+const router: Router = useRouter()
+
 const checked1 = ref(true)
 //设置学号和密码不能够为空
 const ruleFormRef = ref<FormInstance>()
@@ -69,17 +75,15 @@ const failLogin = (msg: string) => {
 }
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  formEl.validate((valid) => {
+  formEl.validate((valid) => {    
     if (valid) {
-      let logintest = login({
+      login({
         studentId: ruleForm.studentNumber,
         password: ruleForm.pass,
         isSeven: checked1.value
       }).then((res) => {
-        console.log(res);
         if (res.resultStatus != 200) {
           failLogin(res.resultIns)
-
         }
         else {
           sucessLogin()
@@ -91,15 +95,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
           else {
             sessionStorage.setItem('token', `${res.obj}`);
           }
-
+          // 跳转到后台主页
+          router.push('/backPage')
         }
         return res
       })
         .catch(handleError);
-      console.log("logintest", logintest);
-
-
-
     } else {
       console.log('error submit!')
       return false

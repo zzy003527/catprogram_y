@@ -10,7 +10,7 @@
 import { toRaw } from 'vue'
 import type { FormInstance } from 'element-plus'
 import type { PropType } from 'vue'
-import { apply } from '../request/requestApi';
+import { apply } from '../../request/requestApi';
 // import { emit } from 'process';
 // const axios = require('axios').default;
 
@@ -20,6 +20,8 @@ const props = defineProps({
     ruleFormRef: {} as PropType<FormInstance> | Object
 })
 const { ruleForm, ruleFormRef } = { ...props }
+
+console.log(ruleForm);
 
 // 表单上传部分
 const submitForm = (formEl: FormInstance | undefined) => {

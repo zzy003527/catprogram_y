@@ -1,5 +1,8 @@
 <template>
   <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="120px" class="demo-ruleForm">
+    <el-form-item label="姓名" prop="name">
+      <el-input v-model="ruleForm.name" class="NumberInput" autocomplete="off" />
+    </el-form-item>
     <el-form-item label="学号" prop="studentNumber">
       <el-input v-model="ruleForm.studentNumber" class="NumberInput" autocomplete="off" />
     </el-form-item>
@@ -26,8 +29,17 @@
 <script lang='ts' setup>
 import { reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import { register } from "../../request/requestApi"
 
 const ruleFormRef = ref<FormInstance>()
+const checkName = (_rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('请输入姓名'))
+  } else {
+    callback()
+  }
+}
 const checkUserNumber = (_rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请输入学号'))
@@ -73,6 +85,7 @@ const validatePass2 = (_rule: any, value: any, callback: any) => {
 }
 
 const ruleForm = reactive({
+  name: '',
   studentNumber: '',
   email: '',
   pass: '',
@@ -80,16 +93,49 @@ const ruleForm = reactive({
 })
 
 const rules = reactive({
+  name: [{validator:checkName,trigger:'blur'}],
   studentNumber: [{ validator: checkUserNumber, trigger: 'blur' }],
   email: [{ validator: checkEmail, trigger: 'blur' }],
   pass: [{ validator: validatePass, trigger: 'blur' }],
   checkPass: [{ validator: validatePass2, trigger: 'blur' }],
 })
 
+
+//如果登陆成功就触发成功弹窗
+const sucessLogin = () => {
+  ElMessage({
+    message: '注册成功',
+    type: 'success',
+  })
+}
+// 失败弹窗
+const failLogin = (msg: string) => {
+  ElMessage.error(`${msg}`)
+}
+
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
+    console.log(ruleForm.name);
+    
     if (valid) {
+      // 准备报名数据
+      const registerParams = {
+        email: ruleForm.email,
+        password: ruleForm.pass,
+        studentId: ruleForm.studentNumber,
+        username: ruleForm.name
+      }
+      // 发送请求
+      register(registerParams).then((res) =>{
+        if(res.resultStatus != 200) {
+          failLogin(res.resultIns)
+        } else {
+          sucessLogin()
+        }
+      }).catch((err) => {
+        console.log(err);
+      })
       console.log('submit!')
     } else {
       console.log('error submit!')
