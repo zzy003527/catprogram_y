@@ -1,8 +1,7 @@
 <template>
     <div class="navigation">
-        <router-link to="/" class="left">C.A.T</router-link>
+        <a class="left">C.A.T</a>
         <div class="right">
-            <router-link to="/" class="right-item">主页</router-link>
             <router-link to="/backPage/application" class="right-item">报名</router-link>
             <router-link to="/backPage/booking" class="right-item">预约面试</router-link>
             <a class="right-item" @click="signout"> 退出登录</a>
@@ -13,12 +12,10 @@
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus'
 import { logout } from '../../request/requestApi'
-import { Router, useRouter } from 'vue-router';
-const router: Router = useRouter()
-
-
+import { handleError } from '/@/request/requestApi';
+import httpUrl from '/@/request/httpUrl'
 const signout = () => {
-    router.push('/')
+
     ElMessageBox.alert('真的要退出吗', '提示', {
         confirmButtonText: '是的',
         callback: () => {
@@ -27,11 +24,18 @@ const signout = () => {
     })
 }
 const signoutCallback = () => {
-    logout(window.localStorage.getItem('token')).then(res => {
-        ElMessageBox.alert(res.resultIns, '提示', {
-            confirmButtonText: '是的',
-        })
+    logout().then(res => {
+        res
         window.localStorage.removeItem('token')
+        window.sessionStorage.removeItem('token')
+        window.location.href = httpUrl.introduce
+        // 再次确认
+
+    }).catch(err => {
+        ElMessageBox.alert(err.resultIns, '提示', {
+            confirmButtonText: 'OK',
+        })
+        handleError
     })
 }
 </script>
@@ -40,6 +44,8 @@ const signoutCallback = () => {
 a {
     text-decoration: none;
     color: rgb(104, 9, 9);
+    transition: 0.5s;
+    cursor: pointer;
 }
 
 a:hover {
