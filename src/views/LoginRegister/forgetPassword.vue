@@ -19,7 +19,7 @@
      </el-input>
     </el-form-item>   	
     <div class="loginFooter">
-      	<router-link class="list-group-item" active-class="active" to="/introduce/changePassword"> 
+      	<router-link class="list-group-item" active-class="active" to=""> 
             <el-button class="loginSubmit"  type="primary" @click="submitForm(ruleFormRef)">
             确认
             </el-button> 
@@ -32,12 +32,50 @@
 </template>
 
 <script lang='ts' setup>
+  // 引入所需方法
 import { reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import { getVerifyCode } from '../../request/requestApi'
+import store from "../../store/index"
+import { Router, useRouter } from 'vue-router' 
+
+// 声明router，用于编程式导航，相当于之前学的this.$router
+const router: Router = useRouter()
+
+
+//如果登陆成功就触发成功弹窗
+const sucessLogin = () => {
+  ElMessage({
+    message: '获取验证码成功',
+    type: 'success',
+  })
+}
+//如果验证码验证成功就触发成功弹窗
+const sucessLogin1 = () => {
+  ElMessage({
+    message: '验证码验证成功，请修改密码',
+    type: 'success',
+  })
+}
+// 失败弹窗
+const failLogin = (msg: string) => {
+  ElMessage.error(`${msg}` + "，请稍后重试")
+}
 
 const ruleFormRef = ref<FormInstance>()
 
-const checkEmail = (_rule: any, value: any, callback: any) => {
+const checkEmail1 = (_rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('请输入邮箱'))
+  } 
+    else{
+      callback()
+    }
+  
+}
+
+const checkEmail2 = (_rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请输入验证码'))
   } 
@@ -47,7 +85,6 @@ const checkEmail = (_rule: any, value: any, callback: any) => {
   
 }
 
-
 const ruleForm = reactive({
   email:'',
   checkMessage:''
@@ -55,24 +92,52 @@ const ruleForm = reactive({
 })
 
 const rules = reactive({
-  email: [{ validator: checkEmail, trigger: 'blur' }],
-  checkMessage: [{ validator: checkEmail, trigger: 'blur' }],
+  email: [{ validator: checkEmail1, trigger: 'blur' }],
+  checkMessage: [{ validator: checkEmail2, trigger: 'blur' }],
 })
 
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      console.log('submit!')
-    } else {
-      console.log('error submit!')
-      return false
-    }
+      // 获取验证码
+      if(store.state.verifyCode !== ruleForm.checkMessage) {
+        let message = "验证码错误"
+        failLogin(message)
+      } else {
+        // 发送成功的弹窗，跳转到修改密码页面
+        sucessLogin1()
+        router.push("/introduce/changePassword")
+        store.commit("configthisEmail",ruleForm.email)
+      }
+        console.log('submit!')
+      } else {
+        console.log('error submit!')
+        return false
+      }
   })
 }
 const timeTrue = ref(true)
 const time = ref(60)
  function acquire() {  
+  // 准备要发送的数据
+  const params = {
+          email: ruleForm.email
+        }
+      getVerifyCode(params).then((res) => {
+        if(res.resultStatus !== "200") {
+          // 发送失败提示框
+          failLogin(res.resultIns)
+        } else {
+          // 发送成功提示框
+          sucessLogin()
+          // 存入验证码
+          store.commit("configverifyCode",res.obj)
+        }
+      }).catch((err) => {
+        console.log(err);
+      })
+  // 设置获取验证码按钮重置
      timeTrue.value = false;   
      time.value = 60;   
      var setTimeoutS = setInterval(() => {  

@@ -15,8 +15,8 @@ const service = axios.create({
     // `baseURL` 将自动加在 `url` 前面，除非 `url` 是一个绝对 URL
     baseURL: process.env.NODE_ENV === 'production' ? `/` : '/api',
     headers: {
-        // 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        // 'Content-Type': 'application/json'`
     },
     withCredentials: false, // 跨域请求时是否需要使用凭证
     timeout: 3000,

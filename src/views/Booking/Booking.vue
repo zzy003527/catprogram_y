@@ -8,7 +8,7 @@
                 filteArray
             " :filter-method="filterHandler">
             </el-table-column>
-            <el-table-column prop="time" label="时间" width="150" />
+            <el-table-column prop="time" label="时间" width="200" />
             <el-table-column prop="availableNumber" label="可预约" width="330" style="text-align: center;" />
             <el-table-column prop="tag" label="预约" width="100" :filters="[
                 { text: '可预约', value: '预约' },
@@ -69,10 +69,10 @@ let filteArray = ref([] as Array<object>)
 BookData({
     version: '0'
 }).then(res => {
-    console.log(res);
-
     let dataArray: Array<User> = []
     let data = res.obj
+    console.log(data);
+
     // let data = datause.obj
     // 填充表格
     filteArray.value = []
@@ -82,10 +82,11 @@ BookData({
         let obj = data[i].timetable
         if (obj.availableNumber > 0) obj.tag = '预约'
         else if (obj.availableNumber == 0) {
-            obj.tag = '已满', console.log(sonBtn.value);
+            obj.tag = '已满'
         }
+        console.log(data[i].timetable.timeQuantum);
         obj.date = data[i].timetable.timeQuantum.split(' ')[0]
-        obj.time = data[i].timetable.timeQuantum.split(' ')[1].substring(0, 5)
+        obj.time = data[i].timetable.timeQuantum.split(' ')[1].substring(0, 5) + '-' + data[i].timetable.timeQuantum.split(' ')[2]
         dataArray.push(data[i].timetable)
         // 筛选数据
         let filterObj = { text: '', value: '' }
@@ -123,5 +124,6 @@ const filterHandler = (
     padding: 50px;
     border-radius: 15px;
     box-shadow: 33px;
+    background-color: white;
 }
 </style>

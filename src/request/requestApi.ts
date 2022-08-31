@@ -3,7 +3,7 @@
 
 import request from './request'; // axios 封装
 import httpUrl from "./httpUrl"; // 接口 url
-// import qs from 'qs'
+import qs from 'qs'
 
 // 此处的两个请求为示例，如果使用请自行更改-----------------------------------------------------------------------------------------------------------------
 // 获取 banner
@@ -22,6 +22,14 @@ const handleError = (err: any) => {
 // 用户注册
 const register = async(params) => {
     return await request.post<string>(httpUrl.register,params);
+}
+// 获取验证码
+const getVerifyCode = async(params) => {
+    return await request.post<string>(httpUrl.getVerifyCode,qs.stringify(params));
+}
+// 修改密码
+const changePassword = async(params) => {
+    return await request.post<string>(httpUrl.changePassword,qs.stringify(params));
 }
 // ---------------------------------------------------------------------------------------------------------------------------------------
 // 上传表单
@@ -46,14 +54,23 @@ const bookCancel = async (params) => {
 const userProgress = async (params) => {
     return await request.post<string>(httpUrl.userProgress,params);
 }
+
+//退出登录
+const logout = async () => {
+    return await request.post<string>(httpUrl.logout);
+}
+
 export {
     getBanner,
     login,
     register,
+    getVerifyCode,
+    changePassword,
     handleError,
     apply,
     BookData,
     timeSubmit,
     bookCancel,
-    userProgress
+    userProgress,
+    logout
 }

@@ -11,6 +11,8 @@ const httpApi = {
     banner: config.rootUrl + '/home/banner', // banner
     login: config.rootUrl + '/cat/user/login', // 用户登录
     register: config.rootUrl + '/cat/user/register',      //用户注册
+    getVerifyCode: config.rootUrl + '/cat/secure/getVerifyCode',      //忘记密码的获取验证码
+    changePassword: config.rootUrl + '/cat/secure/changePassword',      //修改密码
 
     // 报名部分
     apply: config.rootUrl + '/apply', //报名表提交
@@ -19,7 +21,9 @@ const httpApi = {
     BookData: config.rootUrl + '/cat/reservation/number',//获取预约数据
     bookCancel: config.rootUrl + '/cat/reservation/reservation/del',//删除预约
     // 查看进度部分
-    userProgress: config.rootUrl + '/cat/user/searchProgress' //查看用户进度,
+    userProgress: config.rootUrl + '/cat/user/searchProgress', //查看用户进度,
+    logout: config.rootUrl + '/cat/user/logout',//退出登录
 }
 
+export {config};
 export default httpApi;

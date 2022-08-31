@@ -34,6 +34,8 @@
 <script lang='ts' setup>
 import { reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
+// import store from "../../store/index"
+// import { changePassword } from "../../request/requestApi"
 
 const ruleFormRef = ref<FormInstance>()
 

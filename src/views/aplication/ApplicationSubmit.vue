@@ -11,6 +11,8 @@ import { toRaw } from 'vue'
 import type { FormInstance } from 'element-plus'
 import type { PropType } from 'vue'
 import { apply } from '../../request/requestApi';
+import { ElMessage, ElMessageBox } from 'element-plus'
+import type { Action } from 'element-plus'
 // import { emit } from 'process';
 // const axios = require('axios').default;
 
@@ -25,17 +27,25 @@ console.log(ruleForm);
 
 // 表单上传部分
 const submitForm = (formEl: FormInstance | undefined) => {
-
+    // 判断校验是否通过
     if (!formEl) {
+        //触发表单校验提示
         emit("formCheck")
         return
     }
+    let form
     formEl.validate((valid) => {
         // 上传成功
         if (valid) {
-            console.log('submit!', toRaw(ruleForm))
+            if (ruleForm) {
+                // 由于前面接受的参数过多，删除一些不需要的
+                form = toRaw(ruleForm)
+                delete form.number
+                delete form.name
+                delete form.phone
+            }
             let upload = apply(
-                toRaw(ruleForm)
+                form
             ).then((res) => {
                 open(true)
                 return res
@@ -44,8 +54,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
                 return err
             })
             console.log(upload);
-
-
         }
         // 上传失败
         else {
@@ -58,7 +66,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
 }
 // 表单重置
 const emit = defineEmits(["resert", "formCheck"])
-
 const resetForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     emit("resert")
@@ -66,9 +73,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
 }
 
 // 弹出窗口提示
-// import { ElMessageBox } from 'element-plus'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import type { Action } from 'element-plus'
 const open = (state: Boolean) => {
     if (state) ElMessageBox.alert('提交成功', '提示', {
         confirmButtonText: 'OK',
@@ -84,7 +88,6 @@ const open = (state: Boolean) => {
         callback: (action: Action) => {
             ElMessage({
                 type: 'info',
-                // message: `action: ${action}`,
                 message: `action: ${action}`,
             })
         },
