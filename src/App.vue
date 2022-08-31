@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import backPage from './views/backPage.vue';
+
 </script>
 
 
 <template>
   <div id="app">
-    <backPage></backPage>
+    <router-view></router-view>
   </div>
 </template>
 
