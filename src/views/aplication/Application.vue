@@ -13,18 +13,18 @@
           </el-form-item>
           <el-form-item label="性别" prop="sex">
             <el-radio-group v-model="ruleForm.sex">
-              <el-radio label="1" style="width:68px">男</el-radio>
-              <el-radio label="0" style="width:68px">女</el-radio>
+              <el-radio label="true" style="width:68px">男</el-radio>
+              <el-radio label="false" style="width:68px">女</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="学号" prop="number">
             <el-input v-model="ruleForm.number" type="text" autocomplete="off" />
           </el-form-item>
-          <el-form-item label="学院" prop="college">
-            <el-input v-model="ruleForm.college" type="text" autocomplete="off" />
+          <el-form-item label="学院" prop="institute">
+            <el-input v-model="ruleForm.institute" type="text" autocomplete="off" />
           </el-form-item>
-          <el-form-item label="专业" prop="discipline">
-            <el-input v-model="ruleForm.discipline" type="text" autocomplete="off" />
+          <el-form-item label="专业" prop="major">
+            <el-input v-model="ruleForm.major" type="text" autocomplete="off" />
           </el-form-item>
           <el-form-item label="手机" prop="phone">
             <el-input v-model="ruleForm.phone" type="text" autocomplete="off" />
@@ -36,10 +36,10 @@
             <el-input v-model="ruleForm.introduction" :rows="8" type="textarea" show-word-limit:true />
           </el-form-item>
           <!-- 选择报名方向 -->
-          <el-form-item label="方向" prop="direction">
-            <el-radio-group v-model="ruleForm.direction">
-              <el-radio label="1" border style="width:89px">前端</el-radio>
-              <el-radio label="2" border style="width:89px">后台</el-radio>
+          <el-form-item label="方向" prop="group">
+            <el-radio-group v-model="ruleForm.group">
+              <el-radio label="false" border style="width:89px">前端</el-radio>
+              <el-radio label="true" border style="width:89px">后端</el-radio>
             </el-radio-group>
           </el-form-item>
           <!-- 上传照片 -->
@@ -99,9 +99,9 @@ const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
   name: '',
   number: '',
-  college: '',
-  discipline: '',
-  direction: '',
+  institute: '',
+  major: '',
+  group: '',
   phone: '',
   sex: '',
   introduction: '',
@@ -124,7 +124,7 @@ const rules = reactive({
       trigger: 'blur'
     }
   ],
-  college: [
+  institute: [
     {
       required: true,
       pattern: /^([\u4e00-\u9fa5]{2,15})$/,
@@ -132,7 +132,7 @@ const rules = reactive({
       trigger: 'blur'
     }
   ],
-  discipline: [
+  major: [
     {
       required: true,
       pattern: /^([\u4e00-\u9fa5]{2,15})$/,
@@ -140,7 +140,7 @@ const rules = reactive({
       trigger: 'blur'
     }
   ],
-  direction: [
+  group: [
     {
       required: true,
       message: '请选择你报名的方向',

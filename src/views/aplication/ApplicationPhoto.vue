@@ -1,8 +1,7 @@
 <template>
     <el-form-item label="照片" prop="photo">
-        <el-upload ref="upload" class="upload-demo"
-            action="http://127.0.0.1:4523/m1/1473415-0-default/cat/user/avator/upload" :limit="1"
-            :on-exceed="handleExceed" :auto-upload="false">
+        <el-upload ref="upload" class="upload-demo" :action='request.photoUpload' :limit="1" :on-exceed="handleExceed"
+            :auto-upload="false">
             <template #trigger>
                 <el-button type="primary">选择照片</el-button>
             </template>
@@ -23,7 +22,7 @@
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
 import { ref } from 'vue'
 import { genFileId } from 'element-plus'
-
+import request from '../../request/httpUrl'
 // 照片上传部分
 const upload = ref<UploadInstance>()
 
