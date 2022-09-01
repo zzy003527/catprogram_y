@@ -34,8 +34,8 @@
 <script lang='ts' setup>
 import { reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
-// import store from "../../store/index"
-// import { changePassword } from "../../request/requestApi"
+import store from "../../store/index"
+import { changePassword } from "../../request/requestApi"
 
 const ruleFormRef = ref<FormInstance>()
 
@@ -77,6 +77,16 @@ const rules = reactive({
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
+    // 准备数据
+    const params = {
+      email: store.state.thisEmail,
+      newPassword: ruleForm.pass
+    }
+    changePassword(params).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+    })
     if (valid) {
       console.log('submit!')
     } else {

@@ -241,7 +241,7 @@ function showComments(userMsg) {
 .userProgressLeft .userProgressLeftImg {
   width: 100%;
   height: 221px;
-  background: url(../../public/userprogress.png) center no-repeat;
+  background: url(/userprogress.png) center no-repeat;
 }
 
 .userProgressLeft .userProgressLeftrMsg {

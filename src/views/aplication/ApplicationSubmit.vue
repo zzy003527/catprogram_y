@@ -23,7 +23,6 @@ const props = defineProps({
 })
 const { ruleForm, ruleFormRef } = { ...props }
 
-console.log(ruleForm);
 
 // 表单上传部分
 const submitForm = (formEl: FormInstance | undefined) => {
@@ -44,7 +43,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
                 delete form.name
                 delete form.phone
             }
-            let upload = apply(
+            apply(
                 form
             ).then((res) => {
                 open(true)
@@ -53,12 +52,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
                 open(false)
                 return err
             })
-            console.log(upload);
         }
         // 上传失败
         else {
-            console.log(valid);
-            console.log('error submit!', ruleForm)
             open(false)
             return false
         }

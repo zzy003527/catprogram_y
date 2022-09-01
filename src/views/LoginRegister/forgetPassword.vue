@@ -125,6 +125,8 @@ const time = ref(60)
           email: ruleForm.email
         }
       getVerifyCode(params).then((res) => {
+        console.log(res);
+        
         if(res.resultStatus !== "200") {
           // 发送失败提示框
           failLogin(res.resultIns)

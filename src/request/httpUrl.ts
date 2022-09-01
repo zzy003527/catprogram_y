@@ -17,12 +17,14 @@ const httpApi = {
     // 报名部分
     apply: config.rootUrl + '/apply', //报名表提交
     // 预约部分
+    photoUpload: config.rootUrl + '/cat/user/avator/upload', //报名表提交
     timeSubmit: config.rootUrl + '/cat/reservation/reservation/add',//用户提交预约时间
     BookData: config.rootUrl + '/cat/reservation/number',//获取预约数据
     bookCancel: config.rootUrl + '/cat/reservation/reservation/del',//删除预约
     // 查看进度部分
     userProgress: config.rootUrl + '/cat/user/searchProgress', //查看用户进度,
     logout: config.rootUrl + '/cat/user/logout',//退出登录
+    introduce: 'http://127.0.0.1:5173/'//主页url
 }
 
 export {config};

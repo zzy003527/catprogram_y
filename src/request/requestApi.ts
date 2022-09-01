@@ -29,7 +29,7 @@ const getVerifyCode = async(params) => {
 }
 // 修改密码
 const changePassword = async(params) => {
-    return await request.post<string>(httpUrl.changePassword,qs.stringify(params));
+    return await request.post<string>(httpUrl.changePassword,params);
 }
 // ---------------------------------------------------------------------------------------------------------------------------------------
 // 上传表单

@@ -67,8 +67,10 @@ const sonBtn = ref()
 let tableData = ref([] as User[])
 let filteArray = ref([] as Array<object>)
 BookData({
-    version: '0'
+    version: 1
 }).then(res => {
+    console.log(res);
+    
     let dataArray: Array<User> = []
     let data = res.obj
     console.log(data);

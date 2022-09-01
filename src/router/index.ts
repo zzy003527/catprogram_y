@@ -21,8 +21,8 @@ import UserProgress from "../views/userprogress/userProgress.vue"
 
 
 const routes: Array<RouteRecordRaw> = [
-     // 根路径重定向
-     {
+    // 根路径重定向
+    {
         path: '/',
         redirect: '/introduce'
     },
