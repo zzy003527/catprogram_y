@@ -13,7 +13,7 @@ const httpApi = {
     timeSubmit: config.rootUrl + '/cat/reservation/reservation/add',//用户提交预约时间
     BookData: config.rootUrl + '/cat/reservation/number',//获取预约数据
     bookCancel: config.rootUrl + '/cat/reservation/reservation/del',//删除预约
-    userProgress: config.rootUrl + 'cat/user/searchProgress',//查看用户进度
+    userProgress: config.rootUrl + '/cat/user/searchProgress',//查看用户进度
     logout: config.rootUrl + '/cat/user/logout',//退出登录
     introduce: 'http://127.0.0.1:5173/'//主页url
 }

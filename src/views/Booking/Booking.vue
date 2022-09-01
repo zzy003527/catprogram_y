@@ -33,7 +33,7 @@ import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-
 // import { BookData } from '../../request/requestApi';
 import { toRaw } from '@vue/reactivity';
 import { ref } from 'vue';
-import { handleError, BookData } from '/@/request/requestApi';
+import { handleError, BookData, userProgress } from '/@/request/requestApi';
 import BookingButton from './BookingButton.vue'
 
 // 样式
@@ -63,16 +63,23 @@ const filterTag = (value: string, row: User) => {
 //获取子组件
 const sonBtn = ref()
 //请求代码
+//获取用户面试阶段
+let version
+let userToken
+userToken = window.localStorage.getItem('token') ? window.localStorage.getItem('token') : window.sessionStorage.getItem('token')
+userProgress({
+    userToken: userToken
+}).then(res => {
+    version = res.obj.testStatus
+}).catch(handleError)
 // 输入表格数据格式
 let tableData = ref([] as User[])
 let filteArray = ref([] as Array<object>)
 BookData({
-    version: '0'
+    version: version
 }).then(res => {
     let dataArray: Array<User> = []
     let data = res.obj
-    console.log(data);
-
     // let data = datause.obj
     // 填充表格
     filteArray.value = []
@@ -84,7 +91,6 @@ BookData({
         else if (obj.availableNumber == 0) {
             obj.tag = '已满'
         }
-        console.log(data[i].timetable.timeQuantum);
         obj.date = data[i].timetable.timeQuantum.split(' ')[0]
         obj.time = data[i].timetable.timeQuantum.split(' ')[1].substring(0, 5) + '-' + data[i].timetable.timeQuantum.split(' ')[2]
         dataArray.push(data[i].timetable)
@@ -125,5 +131,22 @@ const filterHandler = (
     border-radius: 15px;
     box-shadow: 33px;
     background-color: white;
+}
+
+.el-button:focus {
+    color: #ffffff;
+    background-color: #409eff;
+    outline: 0;
+}
+
+.el-button:hover {
+    color: #ffffff;
+    background-color: #79bbff;
+}
+
+.el-button:active {
+    color: #ffffff;
+    border-color: #409eff;
+    outline: 0;
 }
 </style>
