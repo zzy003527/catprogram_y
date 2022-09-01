@@ -94,4 +94,20 @@ const open = (state: Boolean) => {
 </script>
 
 <style scoped>
+.el-button:focus {
+    color: #ffffff;
+    background-color: #409eff;
+    outline: 0;
+}
+
+.el-button:hover {
+    color: #ffffff;
+    background-color: #79bbff;
+}
+
+.el-button:active {
+    color: #ffffff;
+    border-color: #409eff;
+    outline: 0;
+}
 </style>
