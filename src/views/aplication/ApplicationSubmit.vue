@@ -94,7 +94,7 @@ const open = (state: Boolean) => {
 </script>
 
 <style scoped>
-.el-button:focus {
+/* .el-button:focus {
     color: #ffffff;
     background-color: #409eff;
     outline: 0;
@@ -109,5 +109,5 @@ const open = (state: Boolean) => {
     color: #ffffff;
     border-color: #409eff;
     outline: 0;
-}
+} */
 </style>

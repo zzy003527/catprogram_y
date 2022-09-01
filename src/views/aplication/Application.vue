@@ -48,38 +48,10 @@
       </el-row>
       <!-- 提交及重置按钮 -->
       <ApplicationSubmit :ruleFormRef="ruleFormRef" :ruleForm="ruleForm" @resert="resetForm(ruleFormRef)"
-        @check="formCheck(ruleFormRef)" class="application" />
+        @formCheck="formCheck(ruleFormRef)" class="application" />
     </el-form>
   </div>
-
-
 </template>
-
-
-<style scoped>
-.table {
-  padding: 50px;
-  padding-bottom: 80px;
-  border-radius: 15px;
-  box-shadow: 33px;
-  background-color: white;
-}
-
-el-input {
-  width: 120px;
-}
-
-el-form-item {
-  width: 120px;
-}
-
-.application {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  /* 移动元素本身50% */
-}
-</style>
 
 
 <script lang="ts" setup>
@@ -160,8 +132,8 @@ const rules = reactive({
   ],
   sex: {
     required: true,
-    trigger: 'change'
-
+    trigger: 'change',
+    message: '性别是必填项'
   },
   introduction: [{
     required: true,
@@ -191,3 +163,30 @@ const formCheck = (formEl: FormInstance | undefined) => {
 }
 
 </script>
+
+
+
+<style scoped>
+.table {
+  padding: 50px;
+  padding-bottom: 80px;
+  border-radius: 15px;
+  box-shadow: 33px;
+  background-color: white;
+}
+
+el-input {
+  width: 120px;
+}
+
+el-form-item {
+  width: 120px;
+}
+
+.application {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  /* 移动元素本身50% */
+}
+</style>
