@@ -29,16 +29,22 @@
 
 <script lang="ts" setup>
 import { ElTable } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
 // import { BookData } from '../../request/requestApi';
 import { toRaw } from '@vue/reactivity';
-import { ref } from 'vue';
-import { handleError, BookData } from '/@/request/requestApi';
+import { onMounted, ref } from 'vue';
+import { handleError, BookData, userProgress } from '/@/request/requestApi';
 import BookingButton from './BookingButton.vue'
+import store from "../../store/index"
 
 // 样式
 const getCssVarName = (type: string) => {
     return `--el-box-shadow${type ? '-' : ''}${type}`
+}
+// 失败弹窗
+const failLogin = (msg: string) => {
+  ElMessage.error(`${msg}`)
 }
 
 // element内置代码
@@ -63,18 +69,22 @@ const filterTag = (value: string, row: User) => {
 //获取子组件
 const sonBtn = ref()
 //请求代码
+//获取用户面试阶段
+
 // 输入表格数据格式
 let tableData = ref([] as User[])
 let filteArray = ref([] as Array<object>)
-BookData({
-    version: 1
-}).then(res => {
-    console.log(res);
-    
-    let dataArray: Array<User> = []
-    let data = res.obj
-    console.log(data);
 
+// 获取预约数据
+function Book() {
+BookData({
+    version: store.state.nowTest
+}).then(res => {
+    if(res.resultStatus !== '200') {
+        failLogin(res.resultIns)
+    } else {
+        let dataArray: Array<User> = []
+    let data = res.obj
     // let data = datause.obj
     // 填充表格
     filteArray.value = []
@@ -86,9 +96,9 @@ BookData({
         else if (obj.availableNumber == 0) {
             obj.tag = '已满'
         }
-        console.log(data[i].timetable.timeQuantum);
-        obj.date = data[i].timetable.timeQuantum.split(' ')[0]
-        obj.time = data[i].timetable.timeQuantum.split(' ')[1].substring(0, 5) + '-' + data[i].timetable.timeQuantum.split(' ')[2]
+
+        obj.date = data[i].timetable.timeQuantum.split(' ')[0].substring(0, 11)
+        obj.time = data[i].timetable.timeQuantum.split(' ')[0].substring(11, 19) + '-' + data[i].timetable.timeQuantum.split(' ')[0].substring(31, 39)
         dataArray.push(data[i].timetable)
         // 筛选数据
         let filterObj = { text: '', value: '' }
@@ -101,7 +111,22 @@ BookData({
         }
     }
     tableData.value = dataArray
+    }
 }).catch(handleError)
+}
+
+onMounted(() => {
+    // 获取用户当前面试阶段
+    userProgress().then(res => {
+    store.commit("confignowTest",res.obj.testStatus)
+    // 获取预约数据
+    Book()
+}).catch(handleError)
+
+})
+
+
+
 
 //备用：一键解除筛选功能
 // const tableRef = ref<InstanceType<typeof ElTable>>()
@@ -127,5 +152,22 @@ const filterHandler = (
     border-radius: 15px;
     box-shadow: 33px;
     background-color: white;
+}
+
+.el-button:focus {
+    color: #ffffff;
+    background-color: #409eff;
+    outline: 0;
+}
+
+.el-button:hover {
+    color: #ffffff;
+    background-color: #79bbff;
+}
+
+.el-button:active {
+    color: #ffffff;
+    border-color: #409eff;
+    outline: 0;
 }
 </style>

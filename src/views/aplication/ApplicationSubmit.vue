@@ -11,8 +11,7 @@ import { toRaw } from 'vue'
 import type { FormInstance } from 'element-plus'
 import type { PropType } from 'vue'
 import { apply } from '../../request/requestApi';
-import { ElMessage, ElMessageBox } from 'element-plus'
-import type { Action } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 // import { emit } from 'process';
 // const axios = require('axios').default;
 
@@ -34,9 +33,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
     }
     let form
     formEl.validate((valid) => {
-        // 上传成功
         if (valid) {
-            if (ruleForm) {
+                    // 上传成功
+        if (ruleForm) {
                 // 由于前面接受的参数过多，删除一些不需要的
                 form = toRaw(ruleForm)
                 delete form.number
@@ -46,6 +45,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
             apply(
                 form
             ).then((res) => {
+                console.log(res);
+                
                 open(true)
                 return res
             }).catch(err => {
@@ -71,25 +72,29 @@ const resetForm = (formEl: FormInstance | undefined) => {
 // 弹出窗口提示
 const open = (state: Boolean) => {
     if (state) ElMessageBox.alert('提交成功', '提示', {
-        confirmButtonText: 'OK',
-        callback: (action: Action) => {
-            ElMessage({
-                type: 'info',
-                message: `action: ${action}`,
-            })
-        }
+        confirmButtonText: 'OK'
     })
     else ElMessageBox.alert('提交失败', '提示', {
-        confirmButtonText: 'OK',
-        callback: (action: Action) => {
-            ElMessage({
-                type: 'info',
-                message: `action: ${action}`,
-            })
-        },
+        confirmButtonText: 'OK'
     })
 }
 </script>
 
 <style scoped>
+.el-button:focus {
+    color: #ffffff;
+    background-color: #409eff;
+    outline: 0;
+}
+
+.el-button:hover {
+    color: #ffffff;
+    background-color: #79bbff;
+}
+
+.el-button:active {
+    color: #ffffff;
+    border-color: #409eff;
+    outline: 0;
+}
 </style>

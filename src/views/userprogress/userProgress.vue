@@ -140,13 +140,8 @@ if (localStorage.getItem('token') == null) {
 }
 //传入用户的token获取用户信息
 
-let userPgs = userProgress({
-  userToken: token
-}).then((res) => {
-  console.log(res);
+userProgress().then((res) => {
   userMsg = res
-  console.log(userMsg);
-
   //成功获取数据之后，渲染到页面上面
   username.value = userMsg.obj.username
   if (userMsg.obj.group == true) {
@@ -157,12 +152,11 @@ let userPgs = userProgress({
   }
   studentIdId.value = userMsg.obj.id
   checkProgress(userMsg)
-  console.log(comments);
   showComments(userMsg)
   return res
 })
   .catch(handleError);
-console.log("logintest", userPgs);
+
 function checkProgress(userMsg) {
   if (userMsg.obj.testStatus == 1) {
     finishStepOne.value = '#0bbd87'
@@ -201,8 +195,6 @@ function showComments(userMsg) {
   comments.commentlistTwo = userMsg.obj.test2
   comments.commentlistThree = userMsg.obj.test3
   comments.commentlistFour = userMsg.obj.test4
-  console.log(comments, '55555');
-
 }
 
 

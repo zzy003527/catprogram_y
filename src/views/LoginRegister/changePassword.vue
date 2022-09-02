@@ -36,9 +36,22 @@ import { reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
 import store from "../../store/index"
 import { changePassword } from "../../request/requestApi"
+import { ElMessage } from 'element-plus'
 
 const ruleFormRef = ref<FormInstance>()
 
+
+  //如果登陆成功就触发成功弹窗
+const sucessLogin = () => {
+  ElMessage({
+    message: '修改密码成功',
+    type: 'success',
+  })
+}
+// 失败弹窗
+const failLogin = (msg: string) => {
+  ElMessage.error(`${msg}`)
+}
 
 const validatePass = (_rule: any, value: any, callback: any) => {
   if (value === '') {
@@ -76,23 +89,26 @@ const rules = reactive({
 
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  formEl.validate((valid) => {
+  formEl.validate(() => {
     // 准备数据
     const params = {
       email: store.state.thisEmail,
       newPassword: ruleForm.pass
     }
     changePassword(params).then((res) => {
-      console.log(res);
+      if(res.resultStatus !== '200') {
+        // 失败弹窗
+        failLogin(res.resultIns)
+      } else {
+        // 成功弹窗
+        sucessLogin()
+        // 清空输入框数据
+        ruleForm.pass = ''
+        ruleForm.checkPass = ''
+      }
     }).catch((err) => {
       console.log(err);
     })
-    if (valid) {
-      console.log('submit!')
-    } else {
-      console.log('error submit!')
-      return false
-    }
   })
 }
 

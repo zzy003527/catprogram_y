@@ -104,7 +104,7 @@ const ruleForm = reactive({
   group: '',
   phone: '',
   sex: '',
-  introduction: '',
+  introduction: ''
 })
 
 const rules = reactive({

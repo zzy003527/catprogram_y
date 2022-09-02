@@ -110,9 +110,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         router.push("/introduce/changePassword")
         store.commit("configthisEmail",ruleForm.email)
       }
-        console.log('submit!')
       } else {
-        console.log('error submit!')
         return false
       }
   })
@@ -125,8 +123,6 @@ const time = ref(60)
           email: ruleForm.email
         }
       getVerifyCode(params).then((res) => {
-        console.log(res);
-        
         if(res.resultStatus !== "200") {
           // 发送失败提示框
           failLogin(res.resultIns)
@@ -146,6 +142,7 @@ const time = ref(60)
       time.value--;   
      if (time.value <= 0) {     
      clearInterval(setTimeoutS);  
+
         timeTrue.value = true;      
   }   
    }, 1000); 

@@ -116,8 +116,6 @@ const failLogin = (msg: string) => {
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
-    console.log(ruleForm.name);
-    
     if (valid) {
       // 准备报名数据
       const registerParams = {
@@ -136,9 +134,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
       }).catch((err) => {
         console.log(err);
       })
-      console.log('submit!')
     } else {
-      console.log('error submit!')
       return false
     }
   })

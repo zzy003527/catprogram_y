@@ -95,5 +95,21 @@ const router = createRouter({
     routes
 });
 
+router.beforeEach((to,form,next) => {
+    // 如果进入的时候检测到进入介绍页面并且localStorage中有token的话，就证明有七天免登录
+    if(to.path.indexOf("/introduce") !== -1 && localStorage.getItem("token")) {
+        // 跳转到后台主页
+        router.push("/backPage")
+    }
+    // 如果进入(非介绍页或登录注册页)的时候没有检测到localStorage或者sessionStorage中有token的话，那么就跳转到介绍页
+    let userToken = window.localStorage.getItem('token') ? window.localStorage.getItem('token') : window.sessionStorage.getItem('token')
+    if(to.path.indexOf("/introduce") === -1 && !userToken) {
+        router.push("/")
+    }
+    // 如果用户未能验证身份，则 `next` 会被调用两次
+    next()
+  })
+  
+
 
 export default router;

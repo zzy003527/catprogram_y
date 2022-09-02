@@ -16,7 +16,6 @@ const login = async (params) => {
     return await request.post<string>(httpUrl.login, params);
 }
 const handleError = (err: any) => {
-    // console.log("请求错误", err);
     throw err;
 }
 // 用户注册
@@ -25,7 +24,7 @@ const register = async(params) => {
 }
 // 获取验证码
 const getVerifyCode = async(params) => {
-    return await request.post<string>(httpUrl.getVerifyCode,qs.stringify(params));
+    return await request.post<string>(httpUrl.getVerifyCode,params);
 }
 // 修改密码
 const changePassword = async(params) => {
@@ -34,7 +33,11 @@ const changePassword = async(params) => {
 // ---------------------------------------------------------------------------------------------------------------------------------------
 // 上传表单
 const apply = async (params) => {
-    return await request.post<string>(httpUrl.apply,params);
+    return await request.post<string>(httpUrl.apply,qs.stringify(params));
+}
+// 提交图片
+const photoUpload = async (params) => {
+    return await request.post<string>(httpUrl.apply,qs.stringify(params));
 }
 //获取预约信息
 const BookData = async (params) => {
@@ -42,17 +45,17 @@ const BookData = async (params) => {
 }
 //用户提交预约时间
 const timeSubmit = async (params) => {
-    return await request.post<string>(httpUrl.timeSubmit,params);
+    return await request.post<string>(httpUrl.timeSubmit,qs.stringify(params));
 }
 //用户取消预约
 const bookCancel = async (params) => {
-    return await request.post<string>(httpUrl.bookCancel,params);
+    return await request.post<string>(httpUrl.bookCancel,qs.stringify(params));
 }
 
 
 //查看用户进度
-const userProgress = async (params) => {
-    return await request.post<string>(httpUrl.userProgress,params);
+const userProgress = async () => {
+    return await request.get<string>(httpUrl.userProgress);
 }
 
 //退出登录
@@ -68,6 +71,7 @@ export {
     changePassword,
     handleError,
     apply,
+    photoUpload,
     BookData,
     timeSubmit,
     bookCancel,
