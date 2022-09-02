@@ -76,6 +76,8 @@ const filterTag = (value: string, row: User) => {
 // 输入表格数据格式
 let tableData = ref([] as User[])
 let filteArray = ref([] as Array<object>)
+// 已预约时间段
+let bookedTime: string
 // 获取预约数据
 function Book() {
     BookData({
@@ -97,6 +99,9 @@ function Book() {
                 else if (obj.availableNumber == 0) {
                     obj.tag = '已满'
                 }
+                console.log(bookedTime);
+                console.log(data[i].timetable.timeQuantum);
+                if (bookedTime == data[i].timetable.timeQuantum) obj.tag = '取消预约'
                 obj.date = data[i].timetable.timeQuantum.split(' ')[0].substring(0, 11)
                 obj.time = data[i].timetable.timeQuantum.split(' ')[0].substring(11, 19) + '-' + data[i].timetable.timeQuantum.split(' ')[0].substring(31, 39)
                 dataArray.push(data[i].timetable)
@@ -119,6 +124,7 @@ onMounted(() => {
     // 获取用户当前面试阶段
     userProgress().then(res => {
         store.commit("confignowTest", res.obj.testStatus)
+        bookedTime = res.obj.time
         // 获取预约数据
         Book()
     }).catch(handleError)
