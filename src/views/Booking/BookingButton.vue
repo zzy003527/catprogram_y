@@ -26,6 +26,7 @@ const btnType = ref('primary')
 const typeFull = () => {
     btnType.value = 'info'
 }
+if (props.scope.row.tag == '取消预约') btnType.value = 'danger'
 // 上传函数
 let last = 0
 const bookSubmit = () => {
@@ -85,7 +86,6 @@ const bookSubmit = () => {
             props.scope.row.tag = '预约'
         }).catch(handleError)
     }
-
     last = new Date().getTime()
 }
 
