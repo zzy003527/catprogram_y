@@ -13,15 +13,13 @@ import type { PropType } from 'vue'
 import { apply } from '../../request/requestApi';
 import { ElMessageBox } from 'element-plus'
 // import { emit } from 'process';
-// const axios = require('axios').default;
-
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const props = defineProps({
     ruleForm: Object,
     //解决了类型被当作值的问题
     ruleFormRef: {} as PropType<FormInstance> | Object
 })
-const { ruleForm, ruleFormRef } = { ...props }
-
 
 // 表单上传部分
 const submitForm = (formEl: FormInstance | undefined) => {
@@ -31,13 +29,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
         emit("formCheck")
         return
     }
+
     let form
     formEl.validate((valid) => {
         if (valid) {
-                    // 上传成功
-        if (ruleForm) {
+            // 上传成功
+            if (props.ruleForm) {
                 // 由于前面接受的参数过多，删除一些不需要的
-                form = toRaw(ruleForm)
+                form = toRaw(props.ruleForm)
                 delete form.number
                 delete form.name
                 delete form.phone
@@ -45,9 +44,19 @@ const submitForm = (formEl: FormInstance | undefined) => {
             apply(
                 form
             ).then((res) => {
-                console.log(res);
-                
-                open(true)
+                if (res.resultStatus == 200)
+                    ElMessageBox.alert('提交成功', '提示', {
+                        confirmButtonText: 'OK',
+                        callback: () => {
+                            router.push('/backPage/booking')
+                            emit("resert")
+                        }
+                    })
+                else {
+                    ElMessageBox.alert(res.obj, '提示', {
+                        confirmButtonText: 'OK'
+                    })
+                }
                 return res
             }).catch(err => {
                 open(false)
