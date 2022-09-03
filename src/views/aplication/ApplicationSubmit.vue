@@ -26,12 +26,17 @@ const { ruleForm, ruleFormRef } = { ...props }
 // 表单上传部分
 const submitForm = (formEl: FormInstance | undefined) => {
     // 判断校验是否通过
+    if(formEl) {
+        console.log("formEl");
+    }
     if (!formEl) {
+        console.log("NONONONONOformEl");
         //触发表单校验提示
         emit("formCheck")
         return
     }
     let form
+
     formEl.validate((valid) => {
         if (valid) {
                     // 上传成功
@@ -42,7 +47,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
                 delete form.name
                 delete form.phone
             }
-            apply(
+            console.log(' ');
+            apply(       
                 form
             ).then((res) => {
                 console.log(res);
