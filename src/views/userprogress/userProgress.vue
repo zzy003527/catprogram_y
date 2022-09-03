@@ -144,7 +144,7 @@ userProgress().then((res) => {
   userMsg = res
   //成功获取数据之后，渲染到页面上面
   username.value = userMsg.obj.username
-  if (userMsg.obj.group == true) {
+  if (userMsg.obj.group == false) {
     userdirection.value = '前端'
   }
   else {
