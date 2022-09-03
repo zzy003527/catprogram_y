@@ -41,11 +41,8 @@ const bookSubmit = () => {
         let params = {
             time: props.scope.row.timeQuantum
         }
-        console.log(params);
-
         timeSubmit(params).then(res => {
             console.log(res);
-
             if (res.resultStatus !== '200') {
                 ElMessageBox.alert(res.resultIns, '提示', {
                     // if you want to disable its autofocus

@@ -30,14 +30,15 @@ const service = axios.create({
 
 // 添加请求拦截器
 service.interceptors.request.use((config: AxiosRequestConfig) => {
-    if (token) { //判断token是否存在
-        config.headers!.token = token;  //将token设置成请求头
-      }
-      return config;
-    },
+    let userToken = localStorage.getItem("token")
+    if (userToken) { //判断token是否存在
+        config.headers!.token = userToken;  //将token设置成请求头
+    }
+    return config;
+},
     (err: any) => {
         return Promise.reject(err)
-      },
+    },
 )
 
 

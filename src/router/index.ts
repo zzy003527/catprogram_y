@@ -96,6 +96,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to,form,next) => {
+    console.log(form);
     // 如果进入的时候检测到进入介绍页面并且localStorage中有token的话，就证明有七天免登录
     if(to.path.indexOf("/introduce") !== -1 && localStorage.getItem("token")) {
         // 跳转到后台主页

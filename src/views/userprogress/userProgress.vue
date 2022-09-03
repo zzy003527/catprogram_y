@@ -138,6 +138,7 @@ if (localStorage.getItem('token') == null) {
 } else {
   token = localStorage.getItem('token')
 }
+console.log(token);
 //传入用户的token获取用户信息
 
 userProgress().then((res) => {

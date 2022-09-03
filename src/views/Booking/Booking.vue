@@ -31,7 +31,6 @@
 import { ElTable } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
-// import { BookData } from '../../request/requestApi';
 import { toRaw } from '@vue/reactivity';
 import { onMounted, ref } from 'vue';
 import { handleError, BookData, userProgress } from '/@/request/requestApi';
@@ -99,8 +98,6 @@ function Book() {
                 else if (obj.availableNumber == 0) {
                     obj.tag = '已满'
                 }
-                console.log(bookedTime);
-                console.log(data[i].timetable.timeQuantum);
                 if (bookedTime == data[i].timetable.timeQuantum) obj.tag = '取消预约'
                 obj.date = data[i].timetable.timeQuantum.split(' ')[0].substring(0, 11)
                 obj.time = data[i].timetable.timeQuantum.split(' ')[1].substring(0, 5) + '-' + data[i].timetable.timeQuantum.split(' ')[2].substring(0, 5)

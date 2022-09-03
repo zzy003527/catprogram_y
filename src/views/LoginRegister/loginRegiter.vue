@@ -12,20 +12,13 @@
     </template>
     <router-view></router-view>
   </el-dialog>
-
-
-  <!-- <button>anniu</button> -->
-
 </template>
 
 <script lang='ts' setup>
-// import { ref } from 'vue'
+
 import store from '../../store/index';
 
-// const dialogTableVisible = ref(false)
-console.log(store.state.dialogTableVisible);
 store.state.dialogTableVisible = false
-console.log(store.state.dialogTableVisible);
 </script>
 <style scoped>
 .loginNumber {

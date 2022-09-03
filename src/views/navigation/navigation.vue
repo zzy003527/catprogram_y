@@ -11,9 +11,9 @@
 </template>
 
 <script setup lang="ts">
+// 引入所需方法
 import { ElMessageBox } from 'element-plus'
 import { logout } from '../../request/requestApi'
-import { config } from '/@/request/httpUrl'
 
 // 退出登录部分
 const signout = () => {
@@ -25,13 +25,11 @@ const signout = () => {
         },
     })
 }
-console.log(config.rootUrl);
 const signoutCallback = () => {
     logout().then(() => {
         window.localStorage.removeItem('token')
         window.sessionStorage.removeItem('token')
-        // window.location.href = config.rootUrl
-        window.location.href = "http://127.0.0.1:5174/"
+        window.location.href = "http://106.52.239.206:80"
         // 再次确认
     }).catch(err => {
         ElMessageBox.alert(err.resultIns, '提示', {
