@@ -103,7 +103,7 @@ function Book() {
                 console.log(data[i].timetable.timeQuantum);
                 if (bookedTime == data[i].timetable.timeQuantum) obj.tag = '取消预约'
                 obj.date = data[i].timetable.timeQuantum.split(' ')[0].substring(0, 11)
-                obj.time = data[i].timetable.timeQuantum.split(' ')[0].substring(11, 19) + '-' + data[i].timetable.timeQuantum.split(' ')[0].substring(31, 39)
+                obj.time = data[i].timetable.timeQuantum.split(' ')[1].substring(0, 5) + '-' + data[i].timetable.timeQuantum.split(' ')[2].substring(0, 5)
                 dataArray.push(data[i].timetable)
                 // 筛选数据
                 let filterObj = { text: '', value: '' }
