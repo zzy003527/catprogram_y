@@ -50,6 +50,7 @@
       <ApplicationSubmit :ruleFormRef="ruleFormRef" :ruleForm="ruleForm" @resert="resetForm(ruleFormRef)"
         @formCheck="formCheck(ruleFormRef)" class="application" />
     </el-form>
+
   </div>
 </template>
 
@@ -139,7 +140,8 @@ const rules = reactive({
     required: true,
     message: '请进行自我介绍',
     trigger: 'blur'
-  }, {
+  },
+  {
     min: 50,
     message: '自我介绍字数应不少于50字',
     trigger: 'blur',

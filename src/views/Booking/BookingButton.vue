@@ -26,6 +26,7 @@ const btnType = ref('primary')
 const typeFull = () => {
     btnType.value = 'info'
 }
+if (props.scope.row.tag == '取消预约') btnType.value = 'danger'
 // 上传函数
 let last = 0
 const bookSubmit = () => {
@@ -41,10 +42,10 @@ const bookSubmit = () => {
             time: props.scope.row.timeQuantum
         }
         console.log(params);
-        
+
         timeSubmit(params).then(res => {
             console.log(res);
-            
+
             if (res.resultStatus !== '200') {
                 ElMessageBox.alert(res.resultIns, '提示', {
                     // if you want to disable its autofocus
@@ -57,7 +58,7 @@ const bookSubmit = () => {
                 return 0
             } else {
                 ElMessageBox.alert('预约成功', '提示', {
-                confirmButtonText: 'OK',
+                    confirmButtonText: 'OK',
                 })
                 btnType.value = 'danger'
                 props.scope.row.tag = '取消预约'
@@ -85,7 +86,6 @@ const bookSubmit = () => {
             props.scope.row.tag = '预约'
         }).catch(handleError)
     }
-
     last = new Date().getTime()
 }
 
@@ -98,20 +98,4 @@ defineExpose({
 </script>
 
 <style scoped>
-.el-button:focus {
-    color: #ffffff;
-    background-color: #409eff;
-    outline: 0;
-}
-
-.el-button:hover {
-    color: #ffffff;
-    background-color: #79bbff;
-}
-
-.el-button:active {
-    color: #ffffff;
-    border-color: #409eff;
-    outline: 0;
-}
 </style>
