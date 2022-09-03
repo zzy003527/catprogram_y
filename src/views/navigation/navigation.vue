@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus'
 import { logout } from '../../request/requestApi'
-// import { config } from '/@/request/httpUrl'
+import { config } from '/@/request/httpUrl'
 
 // 退出登录部分
 const signout = () => {
@@ -25,12 +25,13 @@ const signout = () => {
         },
     })
 }
+console.log(config.rootUrl);
 const signoutCallback = () => {
     logout().then(() => {
         window.localStorage.removeItem('token')
         window.sessionStorage.removeItem('token')
         // window.location.href = config.rootUrl
-        window.location.href = "http://127.0.0.1:5173/"
+        window.location.href = "http://127.0.0.1:5174/"
         // 再次确认
     }).catch(err => {
         ElMessageBox.alert(err.resultIns, '提示', {
