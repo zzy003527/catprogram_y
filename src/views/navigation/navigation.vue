@@ -20,8 +20,8 @@ const signout = () => {
 
     ElMessageBox.alert('真的要退出吗', '提示', {
         confirmButtonText: '是的',
-        callback: () => {
-            signoutCallback()
+        callback: (actions) => {
+           if(actions=='confirm') signoutCallback()
         },
     })
 }
@@ -29,7 +29,7 @@ const signoutCallback = () => {
     logout().then(() => {
         window.localStorage.removeItem('token')
         window.sessionStorage.removeItem('token')
-        window.location.href = "http://106.52.239.206:80"
+        window.location.href = "http://106.52.239.206:80/"
         // 再次确认
     }).catch(err => {
         ElMessageBox.alert(err.resultIns, '提示', {
