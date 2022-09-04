@@ -5,7 +5,7 @@
         <div class="userProgressLeft">
           <div class="userProgressLeftrMsg">
             <div class="userProgressLeftrMsgLeft">
-              <img src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+              <img :src="UsreImg" />
             </div>
             <div class="userProgressLeftrMsgRight">
               <div class="username">{{ username }}</div>
@@ -102,7 +102,7 @@ let userMsg
 let username = ref('')
 let userdirection = ref('')
 let studentIdId = ref('')
-
+let UsreImg = ref('')
 //根据状态码来判断是否要加颜色
 let finishStepOne = ref('')
 let finishStepTwo = ref('')
@@ -152,6 +152,12 @@ userProgress().then((res) => {
     userdirection.value = '后台'
   }
   studentIdId.value = userMsg.obj.id
+  if (userMsg.obj.imageSite == null) {
+    UsreImg.value = 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
+  }
+  else {
+    UsreImg.value = userMsg.obj.imageSite
+  }
   checkProgress(userMsg)
   showComments(userMsg)
   return res
