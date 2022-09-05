@@ -1,6 +1,6 @@
 <template>
     <div class="navigation">
-        <a class="left">C.A.T</a>
+        <a class="left" :href="httpUrl.introduce">C.A.T</a>
         <div class="right">
             <router-link to="/backPage/application" class="right-item">报名</router-link>
             <router-link to="/backPage/booking" class="right-item">预约面试</router-link>
@@ -14,7 +14,7 @@
 // 引入所需方法
 import { ElMessageBox } from 'element-plus'
 import { logout } from '../../request/requestApi'
-
+import httpUrl from '/@/request/httpUrl'
 // 退出登录部分
 const signout = () => {
 
@@ -29,7 +29,9 @@ const signoutCallback = () => {
     logout().then(() => {
         window.localStorage.removeItem('token')
         window.sessionStorage.removeItem('token')
-        window.location.href = "http://106.52.239.206:80/"
+        // window.location.href = "http://106.52.239.206:80/"
+        window.location.href ='http://127.0.0.1:5173/'
+        window.localStorage.removeItem('booked')
         // 再次确认
     }).catch(err => {
         ElMessageBox.alert(err.resultIns, '提示', {
