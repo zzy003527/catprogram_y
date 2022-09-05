@@ -1,5 +1,6 @@
 <template>
-    <el-button ref="btn" size="small" :type="btnType" id="0" @click="bookSubmit">{{ props.scope.row.tag }}
+    <el-button ref="btn" size="small" :type="btnType" id="0" @click="bookSubmit" :disabled='disabled'>{{
+    props.scope.row.tag }}
     </el-button>
 </template>
 
@@ -21,12 +22,23 @@ let props = defineProps({
     }
 })
 
-//按钮样式
+//按钮基础样式
+let disabled=ref()
 const btnType = ref('primary')
 const typeFull = () => {
     btnType.value = 'info'
 }
-if (props.scope.row.tag == '取消预约') btnType.value = 'danger'
+// 根据按钮的状态对样式进行检查
+let checkType=()=>{
+    if (props.scope.row.tag == '预约') {
+        btnType.value = 'primary' 
+        disabled.value=false
+    }
+    else if (props.scope.row.tag == '已满'||'已过') disabled.value=true
+    else if(props.scope.row.tag == '已满'||window.localStorage.getItem('booked')=='true')disabled.value=true
+    if (props.scope.row.tag == '取消预约') {btnType.value = 'danger',disabled.value=false}
+}
+checkType()
 // 上传函数
 let last = 0
 const bookSubmit = () => {
@@ -45,8 +57,6 @@ const bookSubmit = () => {
             console.log(res);
             if (res.resultStatus !== '200') {
                 ElMessageBox.alert(res.resultIns, '提示', {
-                    // if you want to disable its autofocus
-                    // autofocus: false,
                     confirmButtonText: 'OK',
                     callback: () => {
                         console.log(res);
@@ -57,6 +67,8 @@ const bookSubmit = () => {
                 ElMessageBox.alert('预约成功', '提示', {
                     confirmButtonText: 'OK',
                 })
+                window.localStorage.setItem('booked','true')
+                checkType()
                 btnType.value = 'danger'
                 props.scope.row.tag = '取消预约'
             }
@@ -79,6 +91,8 @@ const bookSubmit = () => {
             ElMessageBox.alert('取消成功', '提示', {
                 confirmButtonText: 'OK',
             })
+            window.localStorage.removeItem('booked')
+            checkType()
             btnType.value = 'primary'
             props.scope.row.tag = '预约'
         }).catch(handleError)
