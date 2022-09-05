@@ -21,8 +21,12 @@
             <el-input v-model="ruleForm.number" type="text" autocomplete="off" />
           </el-form-item>
           <el-form-item label="学院" prop="institute">
-            <el-input v-model="ruleForm.institute" type="text" autocomplete="off" />
+            <!-- <el-input v-model="ruleForm.institute" type="text" autocomplete="off" /> -->
+            <el-select v-model="ruleForm.institute" class="m-2" placeholder=" " style="width:100% ;">
+              <el-option v-for="item in InstituteOptions" :key="item.value" :label="item.label" :value="item.value" />
+            </el-select>
           </el-form-item>
+
           <el-form-item label="专业" prop="major">
             <el-input v-model="ruleForm.major" type="text" autocomplete="off" />
           </el-form-item>
@@ -66,6 +70,61 @@ import type { FormInstance } from 'element-plus'
 const getCssVarName = (type: string) => {
   return `--el-box-shadow${type ? '-' : ''}${type}`
 }
+// 学院及专业可选框填充部分
+const InstituteOptions = [
+  {
+    value: '机电工程学院',
+    label: '机电工程学院',
+  },
+  {
+    value: '自动化学院',
+    label: '自动化学院',
+  },
+  {
+    value: '计算机学院',
+    label: '计算机学院',
+  },
+  {
+    value: '信息工程学院',
+    label: '信息工程学院',
+  },
+  {
+    value: '轻工化工学院',
+    label: '轻工化工学院',
+  },
+  {
+    value: '土木与交通工程学院',
+    label: '土木与交通工程学院',
+  },
+  {
+    value: '材料与能源学院',
+    label: '材料与能源学院',
+  },
+  {
+    value: '环境科学与工程学院',
+    label: '环境科学与工程学院',
+  },
+  {
+    value: '外国语学院',
+    label: '外国语学院',
+  },
+  {
+    value: '物理与光电工程学院',
+    label: '物理与光电工程学院',
+  },
+  {
+    value: '生物医药学院',
+    label: '生物医药学院',
+  },
+  {
+    value: '生态环境与资源学院',
+    label: '生态环境与资源学院',
+  },
+  {
+    value: '集成电路学院',
+    label: '集成电路学院',
+  }
+]
 // 输入内容及规则部分
 const ruleFormRef = ref<FormInstance>()
 
@@ -83,7 +142,7 @@ const ruleForm = reactive({
 const rules = reactive({
   name: [
     { required: true, message: '请输入你的名字', trigger: 'blur' },
-    { pattern: /^[\u4E00-\u9FA5]{2,10}(·[\u4E00-\u9FA5]{2,10}){0,2}$/, message: '姓名应为二到十个汉字', trigger: 'blur' },
+    { pattern:  /^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/, message: '姓名应为二到十个汉字', trigger: 'blur' },
   ],
   number: [
     {
@@ -140,15 +199,10 @@ const rules = reactive({
     required: true,
     message: '请进行自我介绍',
     trigger: 'blur'
-  },
-  {
-    min: 50,
-    message: '自我介绍字数应不少于50字',
-    trigger: 'blur',
-  }, {
+  },{
     max: 1000,
     message: '自我介绍字数不超过1000字',
-    trigger: 'blur',
+    trigger: 'change',
   }]
 })
 

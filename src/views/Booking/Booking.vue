@@ -87,20 +87,31 @@ function Book() {
         } else {
             let dataArray: Array<User> = []
             let data = res.obj
+            
             // let data = datause.obj
+            //检测是否预约过
+            if(bookedTime)window.localStorage.setItem('booked','true')
             // 填充表格
             filteArray.value = []
             let filteArrayData: Array<string> = []
             for (let i in data) {
                 // 表格数据
                 let obj = data[i].timetable
+                obj.availableNumber=obj.availableNumber-obj.number
+
                 if (obj.availableNumber > 0) obj.tag = '预约'
-                else if (obj.availableNumber == 0) {
-                    obj.tag = '已满'
-                }
-                if (bookedTime == data[i].timetable.timeQuantum) obj.tag = '取消预约'
-                obj.date = data[i].timetable.timeQuantum.split(' ')[0].substring(0, 11)
-                obj.time = data[i].timetable.timeQuantum.split(' ')[1].substring(0, 5) + '-' + data[i].timetable.timeQuantum.split(' ')[2].substring(0, 5)
+                else if (obj.availableNumber == 0) {obj.tag = '已满'}
+                if (bookedTime == data[i].timetable.timeQuantum) {obj.tag = '取消预约'}
+                console.log('000',data[i].timetable.timeQuantum);
+                console.log('001',bookedTime);
+                
+                console.log(bookedTime == data[i].timetable.timeQuantum);
+                
+                // 将预约时间段单独提出来
+                let timeQuantum=data[i].timetable.timeQuantum
+                if(dateStrChangeTimeTamp(timeQuantum)<Date.now()){obj.tag = '已过'}
+                obj.date = timeQuantum.split(' ')[0].substring(0, 11)
+                obj.time = timeQuantum.split(' ')[1].substring(0, 5) + '-' + data[i].timetable.timeQuantum.split(' ')[2].substring(0, 5)
                 dataArray.push(data[i].timetable)
                 // 筛选数据
                 let filterObj = { text: '', value: '' }
@@ -119,6 +130,7 @@ function Book() {
 
 onMounted(() => {
     // 获取用户当前面试阶段
+    
     userProgress().then(res => {
         store.commit("confignowTest", res.obj.testStatus)
         bookedTime = res.obj.time
@@ -141,6 +153,17 @@ const filterHandler = (
     const property = column['property']
     return row[property] === value
 }
+// 字符串转时间戳函数
+//日期字符串转成时间戳
+//例如var date = '2015-03-05 17:59:00.0';
+function dateStrChangeTimeTamp(dateStr){
+   dateStr = dateStr.substring(0,19);
+   dateStr = dateStr.replace(/-/g,'/');
+   let timeTamp = new Date(dateStr).getTime();
+   return timeTamp
+}
+
+
 </script>
 
 <style scoped>

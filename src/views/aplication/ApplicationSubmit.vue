@@ -41,8 +41,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
                 // 由于前面接受的参数过多，删除一些不需要的
                 form = toRaw(props.ruleForm)
                 delete form.number
-                delete form.name
-                delete form.phone
             }
             apply(       
                 form
