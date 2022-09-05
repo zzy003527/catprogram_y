@@ -1,33 +1,21 @@
 <template>
-  <el-form
-    ref="ruleFormRef"
-    :model="ruleForm"
-    status-icon
-    :rules="rules"
-    label-width="120px"
-    class="demo-ruleForm"
-  >
+  <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="120px" class="demo-ruleForm">
     <el-form-item label="新密码" prop="pass">
-      <el-input class="NumberInput" v-model="ruleForm.pass" type="password" autocomplete="off" />
+      <el-input class="NumberInput" v-model="ruleForm.pass" type="password" autocomplete="off" show-password />
     </el-form-item>
     <el-form-item label="确认新密码" prop="checkPass">
-      <el-input
-        v-model="ruleForm.checkPass"
-        type="password"
-        autocomplete="off"
-        class="NumberInput"
-      />
+      <el-input v-model="ruleForm.checkPass" type="password" autocomplete="off" class="NumberInput" show-password />
     </el-form-item>
-    	
+
     <div class="loginFooter">
-   
-     
-      <el-button class="loginSubmit"  type="primary" @click="submitForm(ruleFormRef)"
-        >确认
-      </el-button>   
-      <div> <router-link class="list-group-item" 
-                       active-class="active" to="/introduce/login">返回登陆</router-link></div>
+
+
+      <el-button class="loginSubmit" type="primary" @click="submitForm(ruleFormRef)">确认
+      </el-button>
+      <div>
+        <router-link class="list-group-item" active-class="active" to="/introduce/login">返回登陆</router-link>
       </div>
+    </div>
   </el-form>
 </template>
 
@@ -37,14 +25,16 @@ import type { FormInstance } from 'element-plus'
 import store from "../../store/index"
 import { changePassword } from "../../request/requestApi"
 import { ElMessage } from 'element-plus'
-
+import { Router, useRouter } from 'vue-router'
+// 声明router，用于编程式导航，相当于之前学的this.$router
+const router: Router = useRouter()
 const ruleFormRef = ref<FormInstance>()
 
 
-  //如果登陆成功就触发成功弹窗
+//如果登陆成功就触发成功弹窗
 const sucessLogin = () => {
   ElMessage({
-    message: '修改密码成功',
+    message: '修改密码成功，请再次登陆',
     type: 'success',
   })
 }
@@ -56,8 +46,8 @@ const failLogin = (msg: string) => {
 const validatePass = (_rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请输入密码'))
-  } else if(!(/(?=.*([a-zA-Z].*))(?=.*[0-9].*)[a-zA-Z0-9-*/+.~!@#$%^&*()]{6,20}$/.test(value))){
-    callback(new Error('密码至少包含数字和英文，长度6-20'))
+  } else if (!(/(?=.*([a-zA-Z].*))(?=.*[0-9].*)[a-zA-Z0-9-*/+.~!@#$%^&*()]{6,16}$/.test(value))) {
+    callback(new Error('密码至少包含数字和英文，长度6-16'))
   }
   else {
     if (ruleForm.checkPass !== '') {
@@ -96,7 +86,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
       newPassword: ruleForm.pass
     }
     changePassword(params).then((res) => {
-      if(res.resultStatus !== '200') {
+      if (res.resultStatus !== '200') {
         // 失败弹窗
         failLogin(res.resultIns)
       } else {
@@ -105,6 +95,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
         // 清空输入框数据
         ruleForm.pass = ''
         ruleForm.checkPass = ''
+        //修改之后 就返回登陆的页面
+        router.push("/introduce/login")
       }
     }).catch((err) => {
       console.log(err);
@@ -116,21 +108,22 @@ const submitForm = (formEl: FormInstance | undefined) => {
 </script>
 
 <style scoped>
-.loginSubmit{
-    width: 266px;
-    margin-top: 24px;
-    border-radius: 149px !important;
+.loginSubmit {
+  width: 266px;
+  margin-top: 24px;
+  border-radius: 149px !important;
 
 }
 </style>
 <style>
 .NumberInput {
-    width: 230px!important;
+  width: 230px !important;
 }
-.loginFooter{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+
+.loginFooter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 </style>

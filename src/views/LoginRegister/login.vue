@@ -4,7 +4,7 @@
       <el-input v-model="ruleForm.studentNumber" class="NumberInput" autocomplete="off" />
     </el-form-item>
     <el-form-item label="密码" prop="pass">
-      <el-input v-model="ruleForm.pass" type="password" class="NumberInput" autocomplete="off" />
+      <el-input v-model="ruleForm.pass" type="password" show-password class="NumberInput" autocomplete="off" />
     </el-form-item>
     <div>
       <span class="forgetPassword">
@@ -25,12 +25,13 @@
 
 <script lang='ts' setup>
 // 引入所需方法
-import { Router, useRouter } from 'vue-router' 
+import { Router, useRouter } from 'vue-router'
 import { ref, reactive } from 'vue'
 import type { FormInstance } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { login, handleError } from '../../request/requestApi'
 import store from '../../store/index';
+
 
 // 声明router，用于编程式导航，相当于之前学的this.$router
 const router: Router = useRouter()
@@ -73,41 +74,55 @@ const sucessLogin = () => {
 const failLogin = (msg: string) => {
   ElMessage.error(`${msg}`)
 }
+let timer = true;
 const submitForm = (formEl: FormInstance | undefined) => {
+
   if (!formEl) return
-  formEl.validate((valid) => {    
+  formEl.validate((valid) => {
     if (valid) {
-      login({
-        studentId: ruleForm.studentNumber,
-        password: ruleForm.pass,
-        isSeven: checked1.value
-      }).then((res) => {
-        if (res.resultStatus != 200) {
-          failLogin(res.resultIns)
-        }
-        else {
-          sucessLogin()
-          store.state.dialogTableVisible = false
-          //登陆成功的时候根据是否勾选七天免登陆来判断把token存储到localstorage里面还是sessionstorage
-          if (checked1.value == true) {
-            localStorage.setItem('token', `${res.obj}`);
+
+      if (timer) {
+
+        timer = false;
+        setTimeout(() => {
+          console.log('7777');
+          timer = true;
+        }, 3000);
+        login({
+          studentId: ruleForm.studentNumber,
+          password: ruleForm.pass,
+          isSeven: checked1.value
+        }).then((res) => {
+          if (res.resultStatus != 200) {
+            failLogin(res.resultIns)
           }
           else {
-            sessionStorage.setItem('token', `${res.obj}`);
+            sucessLogin()
+            store.commit("configLoginCars", false)
+            //登陆成功的时候根据是否勾选七天免登陆来判断把token存储到localstorage里面还是sessionstorage
+            if (checked1.value == true) {
+              localStorage.setItem('token', `${res.obj}`);
+            }
+            else {
+              sessionStorage.setItem('token', `${res.obj}`);
+            }
+            // 跳转到后台主页
+            router.push('/backPage')
           }
-          // 跳转到后台主页
-          router.push('/backPage')
-        }
-        return res
-      })
-        .catch(handleError);
+          return res
+        })
+          .catch(handleError);
+      }
+
     } else {
       console.log('error submit!')
-      return false
+      return false;
     }
   })
-}
 
+
+
+}
 
 </script>
 <style scoped>
