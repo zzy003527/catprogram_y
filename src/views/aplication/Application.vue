@@ -63,9 +63,9 @@ import ApplicationSubmit from './ApplicationSubmit.vue'
 import { userProgress } from '../../request/requestApi';
 import { reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
-import { ElMessageBox } from 'element-plus';
-import { useRouter } from 'vue-router'
-const router = useRouter()
+// import { ElMessageBox } from 'element-plus';
+// import { useRouter } from 'vue-router'
+// const router = useRouter()
 
 //查看是否报名
 // 样式
@@ -153,15 +153,15 @@ userProgress().then(res=>{
     imageUrl.value= userData.imageSite
   }
   // 如果获取失败
-  if(res.resultStatus=='404'){
-    ElMessageBox.alert(`${res.resultIns}，点击跳转到主界面`, '提示', 
-    {
-      confirmButtonText: 'OK',
-      callback: () => {
-        router.push('/')
-      }
-    })
-  }
+  // if(res.resultStatus=='404'){
+  //   ElMessageBox.alert(`${res.resultIns}，点击跳转到主界面`, '提示', 
+  //   {
+  //     confirmButtonText: 'OK',
+  //     callback: () => {
+  //       router.push('/')
+  //     }
+  //   })
+  // }
 })
 // 输入内容及规则部分
 const ruleFormRef = ref<FormInstance>()
