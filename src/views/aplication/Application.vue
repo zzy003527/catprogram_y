@@ -13,38 +13,37 @@
           </el-form-item>
           <el-form-item label="性别" prop="sex">
             <el-radio-group v-model="ruleForm.sex">
-              <el-radio label="true" style="width:68px">男</el-radio>
-              <el-radio label="false" style="width:68px">女</el-radio>
+              <el-radio :label="true" style="width:68px">男</el-radio>
+              <el-radio :label="false" style="width:68px">女</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="学号" prop="number">
+          <!-- <el-form-item label="学号" prop="number">
             <el-input v-model="ruleForm.number" type="text" autocomplete="off" />
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="学院" prop="institute">
             <!-- <el-input v-model="ruleForm.institute" type="text" autocomplete="off" /> -->
             <el-select v-model="ruleForm.institute" class="m-2" placeholder=" " style="width:100% ;">
               <el-option v-for="item in InstituteOptions" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
-
           <el-form-item label="专业" prop="major">
             <el-input v-model="ruleForm.major" type="text" autocomplete="off" />
           </el-form-item>
-          <el-form-item label="手机" prop="phone">
-            <el-input v-model="ruleForm.phone" type="text" autocomplete="off" />
+          <el-form-item label="手机" prop="phoneNumber">
+            <el-input v-model="ruleForm.phoneNumber" type="text" autocomplete="off" />
+          </el-form-item>
+          <!-- 选择报名方向 -->
+          <el-form-item label="方向" prop="group">
+            <el-radio-group v-model="ruleForm.group">x
+              <el-radio :label="false" border style="width:101px">前端</el-radio>
+              <el-radio :label="true" border style="width:101px">后端</el-radio>
+            </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="11" style="margin-left:10px ;">
           <!-- 自我介绍 -->
           <el-form-item label="自我介绍" prop="introduction" label-position="top">
-            <el-input v-model="ruleForm.introduction" :rows="8" type="textarea" show-word-limit:true />
-          </el-form-item>
-          <!-- 选择报名方向 -->
-          <el-form-item label="方向" prop="group">
-            <el-radio-group v-model="ruleForm.group">
-              <el-radio label="false" border style="width:89px">前端</el-radio>
-              <el-radio label="true" border style="width:89px">后端</el-radio>
-            </el-radio-group>
+            <el-input v-model="ruleForm.introduction" :rows="5" type="textarea" show-word-limit:true />
           </el-form-item>
           <!-- 上传照片 -->
           <ApplicationPhoto />
@@ -54,7 +53,6 @@
       <ApplicationSubmit :ruleFormRef="ruleFormRef" :ruleForm="ruleForm" @resert="resetForm(ruleFormRef)"
         @formCheck="formCheck(ruleFormRef)" class="application" />
     </el-form>
-
   </div>
 </template>
 
@@ -62,9 +60,13 @@
 <script lang="ts" setup>
 import ApplicationPhoto from './ApplicationPhoto.vue'
 import ApplicationSubmit from './ApplicationSubmit.vue'
-
+import { userProgress } from '../../request/requestApi';
 import { reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
+import { ElMessageBox } from 'element-plus';
+import { useRouter } from 'vue-router'
+const router = useRouter()
+//查看是否报名
 
 // 样式
 const getCssVarName = (type: string) => {
@@ -125,37 +127,62 @@ const InstituteOptions = [
     label: '集成电路学院',
   }
 ]
-// 输入内容及规则部分
-const ruleFormRef = ref<FormInstance>()
-
+// 输入内容
 const ruleForm = reactive({
   name: '',
-  number: '',
+  // number: '',
   institute: '',
   major: '',
   group: '',
-  phone: '',
+  phoneNumber: '',
   sex: '',
   introduction: ''
 })
+//若已报名，内容填充
+userProgress().then(res=>{
+  if (res.resultStatus=='200'){
+    let userData=res.obj
+    ruleForm.name=userData.username
+    ruleForm.institute=userData.institute
+    ruleForm.major=userData.major
+    ruleForm.group=userData.group
+    ruleForm.phoneNumber=userData.phoneNumber
+    ruleForm.sex=userData.sex
+    ruleForm.introduction=userData.introduction
+  }
+  // 如果获取失败
+  if(res.resultStatus=='404'){
+    ElMessageBox.alert(`${res.resultIns}，点击跳转到主界面`, '提示', 
+    {
+      confirmButtonText: 'OK',
+      callback: () => {
+        router.push('/')
+      }
+    })
+  }
+})
+// 输入内容及规则部分
+const ruleFormRef = ref<FormInstance>()
+
+
 
 const rules = reactive({
   name: [
     { required: true, message: '请输入你的名字', trigger: 'blur' },
     { pattern:  /^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/, message: '姓名应为二到十个汉字', trigger: 'blur' },
   ],
-  number: [
-    {
-      required: true,
-      message: '请输入你的学号',
-      trigger: 'blur',
-    },
-    {
-      pattern: /^[1-9]\d{9}$/,
-      message: '请输入正确的学号',
-      trigger: 'blur'
-    }
-  ],
+  // number: [
+  //   {
+  //     required: true,
+  //     message: '请输入你的学号',
+  //     trigger: 'blur',
+  //   },
+  //   {
+  //     pattern: /^[1-9]\d{9}$/,
+  //     message: '请输入正确的学号',
+  //     trigger: 'blur'
+  //   }
+  // ],
   institute: [
     {
       required: true,
@@ -178,7 +205,7 @@ const rules = reactive({
       message: '请选择你报名的方向',
     }
   ],
-  phone: [
+  phoneNumber: [
     {
       required: true,
       message: '请输入你的电话号码',
@@ -228,7 +255,7 @@ const formCheck = (formEl: FormInstance | undefined) => {
   padding-bottom: 80px;
   border-radius: 15px;
   box-shadow: 33px;
-  background-color: white;
+  background-color: #ffffff;
 }
 
 el-input {

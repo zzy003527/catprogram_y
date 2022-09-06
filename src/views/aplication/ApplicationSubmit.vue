@@ -1,6 +1,6 @@
 <template>
     <el-form-item style="margin-top: 20px">
-        <el-button type="primary" @click="submitForm(ruleFormRef)">提交</el-button>
+        <el-button type="primary" @click="submitForm(ruleFormRef)">保存</el-button>
         <el-button @click="resetForm">重置</el-button>
 
     </el-form-item>
@@ -31,15 +31,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
         emit("formCheck")
         return
     }
-
     let form
-
     formEl.validate((valid) => {
         if (valid) {
             // 上传成功
             if (props.ruleForm) {
-                // 由于前面接受的参数过多，删除一些不需要的
                 form = toRaw(props.ruleForm)
+                console.log(form);
                 delete form.number
             }
             apply(       
@@ -48,10 +46,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
                 if (res.resultStatus == 200)
                     ElMessageBox.alert('提交成功', '提示', {
                         confirmButtonText: 'OK',
-                        callback: () => {
-                            router.push('/backPage/booking')
-                            emit("resert")
-                        }
                     })
                 else {
                     ElMessageBox.alert(res.obj, '提示', {
