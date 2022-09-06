@@ -13,8 +13,7 @@ import type { PropType } from 'vue'
 import { apply } from '../../request/requestApi';
 import { ElMessageBox } from 'element-plus'
 // import { emit } from 'process';
-import { useRouter } from 'vue-router'
-const router = useRouter()
+
 const props = defineProps({
     ruleForm: Object,
     //解决了类型被当作值的问题
