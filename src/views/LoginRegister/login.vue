@@ -108,6 +108,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
             }
             // 跳转到后台主页
             router.push('/backPage')
+            store.commit('configNavigationShow',true)
+            console.log(store);
+            
           }
           return res
         })
