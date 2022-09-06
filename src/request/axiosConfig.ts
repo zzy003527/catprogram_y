@@ -39,8 +39,6 @@ service.interceptors.request.use((config: AxiosRequestConfig) => {
     if (userToken) { //判断token是否存在
         config.headers!.token = userToken;  //将token设置成请求头
     }
-    console.log(userToken);
-    console.log(111111);
     return config;
 },
     (err: any) => {
