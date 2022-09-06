@@ -46,7 +46,7 @@
             <el-input v-model="ruleForm.introduction" :rows="5" type="textarea" show-word-limit:true />
           </el-form-item>
           <!-- 上传照片 -->
-          <ApplicationPhoto />
+          <ApplicationPhoto :image='imageUrl' />
         </el-col>
       </el-row>
       <!-- 提交及重置按钮 -->
@@ -66,8 +66,8 @@ import type { FormInstance } from 'element-plus'
 import { ElMessageBox } from 'element-plus';
 import { useRouter } from 'vue-router'
 const router = useRouter()
-//查看是否报名
 
+//查看是否报名
 // 样式
 const getCssVarName = (type: string) => {
   return `--el-box-shadow${type ? '-' : ''}${type}`
@@ -139,6 +139,7 @@ const ruleForm = reactive({
   introduction: ''
 })
 //若已报名，内容填充
+const imageUrl=ref('')
 userProgress().then(res=>{
   if (res.resultStatus=='200'){
     let userData=res.obj
@@ -149,6 +150,7 @@ userProgress().then(res=>{
     ruleForm.phoneNumber=userData.phoneNumber
     ruleForm.sex=userData.sex
     ruleForm.introduction=userData.introduction
+    imageUrl.value= userData.imageSite
   }
   // 如果获取失败
   if(res.resultStatus=='404'){
