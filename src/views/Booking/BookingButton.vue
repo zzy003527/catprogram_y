@@ -21,7 +21,9 @@ let props = defineProps({
         default: function () { }
     }
 })
-
+let emits=defineEmits(
+    ['refresh']
+)
 //按钮基础样式
 let disabled=ref()
 const btnType = ref('primary')
@@ -68,9 +70,14 @@ const bookSubmit = () => {
                     confirmButtonText: 'OK',
                 })
                 window.localStorage.setItem('booked','true')
-                checkType()
+                // 刷新预约人数
+                emits('refresh')
+                // 刷新按钮样式
+                setTimeout(() => {
                 btnType.value = 'danger'
                 props.scope.row.tag = '取消预约'
+                checkType()
+                }, 100);
             }
         }).catch(handleError)
     }
@@ -91,10 +98,18 @@ const bookSubmit = () => {
             ElMessageBox.alert('取消成功', '提示', {
                 confirmButtonText: 'OK',
             })
+            // 刷新预约人数
             window.localStorage.removeItem('booked')
-            checkType()
-            btnType.value = 'primary'
+            emits('refresh')
+            setTimeout(() => {
+                btnType.value = 'primary'
             props.scope.row.tag = '预约'
+            checkType()
+
+            }, 100);
+
+
+            // 刷新按钮样式
         }).catch(handleError)
     }
     last = new Date().getTime()
