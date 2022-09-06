@@ -1,7 +1,7 @@
 <template>
     <div h="auto" w="auto" m="20" class="table" :style="{
-        boxShadow: `var(${getCssVarName('light')})`
-    }">
+    boxShadow: `var(${getCssVarName('light')})`}">
+        <div class="nav">{{stateTag}}</div>
         <el-table ref="tableRef" row-key="date" :data="toRaw(tableData)" size="large">
             <el-table-column prop="date" label="日期" width="180" column-key="date" :filters="
                 // [ { text: '2016-05-01', value: '2016-05-01' }]
@@ -17,7 +17,7 @@
                 <template #default="scope">
                     <!-- <el-tag :type="scope.row.tag === 'true' ? '' : 'success'" disable-transitions>{{ scope.row.tag }}
                 </el-tag> -->
-                    <booking-button :scope="scope" />
+                    <booking-button :scope="scope" @refresh='Book' />
                 </template>
             </el-table-column>
         </el-table>
@@ -66,12 +66,35 @@ const filterTag = (value: string, row: User) => {
     return row.tag === value
 }
 //请求代码
-//获取用户面试阶段
-// let version
-// // let btnType = ref('')
-// userProgress().then(res => {
-//     version = res.obj.testStatus
-// }).catch(handleError)
+//用户面试阶段展示
+let stateTag=ref()
+let stateTagFill=()=>{
+    switch (store.state.nowTest) {
+    case 1:
+    stateTag.value='准备笔试'
+        break;
+    case 2:
+    stateTag.value='笔试阶段'
+    break;
+    case 3:
+    stateTag.value='面试阶段'
+    break;
+    case 4:
+    stateTag.value='一轮答辩'
+    break;
+    case 5:
+    stateTag.value='二轮答辩'
+    break;
+    case 6:
+    stateTag.value='win!!!'
+    break;
+    default:
+
+        break;
+}
+}
+
+
 // 输入表格数据格式
 let tableData = ref([] as User[])
 let filteArray = ref([] as Array<object>)
@@ -84,6 +107,7 @@ function Book() {
     }).then(res => {
         if (res.resultStatus !== '200') {
             failLogin(res.resultIns)
+            console.log(1);
         } else {
             let dataArray: Array<User> = []
             let data = res.obj
@@ -98,15 +122,9 @@ function Book() {
                 // 表格数据
                 let obj = data[i].timetable
                 obj.availableNumber=obj.availableNumber-obj.number
-
                 if (obj.availableNumber > 0) obj.tag = '预约'
                 else if (obj.availableNumber == 0) {obj.tag = '已满'}
-                if (bookedTime == data[i].timetable.timeQuantum) {obj.tag = '取消预约'}
-                console.log('000',data[i].timetable.timeQuantum);
-                console.log('001',bookedTime);
-                
-                console.log(bookedTime == data[i].timetable.timeQuantum);
-                
+                if (bookedTime == data[i].timetable.timeQuantum) {obj.tag = '取消预约'}           
                 // 将预约时间段单独提出来
                 let timeQuantum=data[i].timetable.timeQuantum
                 if(dateStrChangeTimeTamp(timeQuantum)<Date.now()){obj.tag = '已过'}
@@ -130,10 +148,10 @@ function Book() {
 
 onMounted(() => {
     // 获取用户当前面试阶段
-    
     userProgress().then(res => {
-        store.commit("confignowTest", res.obj.testStatus)
+        store.commit("confignowTest",Math.floor(res.obj.testStatus/100) )
         bookedTime = res.obj.time
+        stateTagFill()
         // 获取预约数据
         Book()
     }).catch(handleError)
@@ -172,5 +190,11 @@ function dateStrChangeTimeTamp(dateStr){
     border-radius: 15px;
     box-shadow: 33px;
     background-color: white;
+}
+
+.nav {
+    margin-bottom: 40px;
+    font-weight: 800;
+    color: rgb(146, 146, 146);
 }
 </style>

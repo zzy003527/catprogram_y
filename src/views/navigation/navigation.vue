@@ -2,7 +2,7 @@
     <div class="navigation">
         <a class="left" :href="httpUrl.introduce">C.A.T</a>
         <div class="right">
-            <router-link to="/backPage/application" class="right-item">报名</router-link>
+            <router-link to="/backPage/application" class="right-item">个人信息</router-link>
             <router-link to="/backPage/booking" class="right-item">预约面试</router-link>
             <router-link to="/backPage/userProgress" class="right-item">面试进度</router-link>
             <a class="right-item" @click="signout"> 退出登录</a>
