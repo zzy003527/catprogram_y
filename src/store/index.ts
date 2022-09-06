@@ -15,17 +15,20 @@ export default createStore({
   },
   mutations: {
     // 修改vuex验证码的值
-    configverifyCode(state,value) {
+    configverifyCode(state, value) {
       state.verifyCode = value
     },
     // 修改vuex获取验证码的邮箱的值
-    configthisEmail(state,value) {
+    configthisEmail(state, value) {
       state.thisEmail = value
     },
     // 修改当前面试阶段
-    confignowTest(state,value) {
+    confignowTest(state, value) {
       state.nowTest = value
-    }
+    },
+    configLoginCars(state, value) {
+      state.dialogTableVisible = value
+    },
   },
   actions: {
   },

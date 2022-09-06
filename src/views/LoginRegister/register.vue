@@ -10,10 +10,10 @@
       <el-input v-model="ruleForm.email" class="NumberInput" autocomplete="off" />
     </el-form-item>
     <el-form-item label="密码" prop="pass">
-      <el-input class="NumberInput" v-model="ruleForm.pass" type="password" autocomplete="off" />
+      <el-input class="NumberInput" v-model="ruleForm.pass" show-password type="password" autocomplete="off" />
     </el-form-item>
     <el-form-item label="确认密码" prop="checkPass">
-      <el-input v-model="ruleForm.checkPass" type="password" autocomplete="off" class="NumberInput" />
+      <el-input v-model="ruleForm.checkPass" type="password" show-password autocomplete="off" class="NumberInput" />
     </el-form-item>
 
     <div class="loginFooter">
@@ -31,7 +31,9 @@ import { reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { register } from "../../request/requestApi"
-
+import { Router, useRouter } from 'vue-router'
+// 声明router，用于编程式导航，相当于之前学的this.$router
+const router: Router = useRouter()
 const ruleFormRef = ref<FormInstance>()
 const checkName = (_rule: any, value: any, callback: any) => {
   if (value === '') {
@@ -51,7 +53,7 @@ const checkEmail = (_rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请输入邮箱'))
   } else {
-    let reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    let reg = /^\w{1,18}@[a-z0-9]+(\.[a-z]{2,4})+$/i;
     if (!reg.test(value)) {
       callback(new Error('邮箱格式不正确'))
     }
@@ -63,8 +65,8 @@ const checkEmail = (_rule: any, value: any, callback: any) => {
 const validatePass = (_rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请输入密码'))
-  } else if (!(/(?=.*([a-zA-Z].*))(?=.*[0-9].*)[a-zA-Z0-9-*/+.~!@#$%^&*()]{6,20}$/.test(value))) {
-    callback(new Error('密码至少包含数字和英文，长度6-20'))
+  } else if (!(/(?=.*([a-zA-Z].*))(?=.*[0-9].*)[a-zA-Z0-9-*/+.~!@#$%^&*()]{6,16}$/.test(value))) {
+    callback(new Error('密码至少包含数字和英文，长度6-16'))
   }
   else {
     if (ruleForm.checkPass !== '') {
@@ -93,7 +95,7 @@ const ruleForm = reactive({
 })
 
 const rules = reactive({
-  name: [{validator:checkName,trigger:'blur'}],
+  name: [{ validator: checkName, trigger: 'blur' }],
   studentNumber: [{ validator: checkUserNumber, trigger: 'blur' }],
   email: [{ validator: checkEmail, trigger: 'blur' }],
   pass: [{ validator: validatePass, trigger: 'blur' }],
@@ -104,7 +106,7 @@ const rules = reactive({
 //如果登陆成功就触发成功弹窗
 const sucessLogin = () => {
   ElMessage({
-    message: '注册成功',
+    message: '注册成功，请登陆',
     type: 'success',
   })
 }
@@ -125,11 +127,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
         username: ruleForm.name
       }
       // 发送请求
-      register(registerParams).then((res) =>{
-        if(res.resultStatus != 200) {
+      register(registerParams).then((res) => {
+        if (res.resultStatus != 200) {
           failLogin(res.resultIns)
         } else {
           sucessLogin()
+          //注册成功之后 就返回登陆的页面
+          router.push("/introduce/login")
+
         }
       }).catch((err) => {
         console.log(err);
