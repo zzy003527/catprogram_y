@@ -41,8 +41,15 @@ import store from "../../store/index"
 const getCssVarName = (type: string) => {
     return `--el-box-shadow${type ? '-' : ''}${type}`
 }
-// 失败弹窗
+// 失败弹窗(节流)
+let last=0
 const failLogin = (msg: string) => {
+    let now = new Date().getTime()
+    if (now - last < 2000) {
+        console.log(55555);
+        return 0
+    }
+    last=new Date().getTime()
     ElMessage.error(`${msg}`)
 }
 
@@ -107,7 +114,6 @@ function Book() {
     }).then(res => {
         if (res.resultStatus !== '200') {
             failLogin(res.resultIns)
-            console.log(1);
         } else {
             let dataArray: Array<User> = []
             let data = res.obj
