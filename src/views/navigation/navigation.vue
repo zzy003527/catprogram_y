@@ -31,7 +31,7 @@ const signoutCallback = () => {
         window.localStorage.removeItem('token')
         window.sessionStorage.removeItem('token')
         // window.location.href = "http://106.52.239.206:80/"
-        window.location.href ='http://127.0.0.1:5173/'
+        window.location.href =httpUrl.introduce
         window.localStorage.removeItem('booked')
         store.commit('configNavigationShow',false)
         // 再次确认

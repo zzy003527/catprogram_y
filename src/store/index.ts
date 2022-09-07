@@ -9,7 +9,9 @@ export default createStore({
     // 存放获取验证码的邮箱
     thisEmail: '',
     // 存放当前用户当前面试阶段
-    nowTest: 1
+    nowTest: 1,
+    //存放导航栏状态
+    navigationShow: false
   },
   getters: {
   },
@@ -28,6 +30,10 @@ export default createStore({
     },
     configLoginCars(state, value) {
       state.dialogTableVisible = value
+    },
+    //修改导航栏状态
+    configNavigationShow(state, value) {
+      state.navigationShow = value
     },
   },
   actions: {
