@@ -9,8 +9,8 @@
 //这是axios配置的ts文件 
 
 import axios, { AxiosRequestConfig,AxiosResponse } from 'axios';
-import { tr } from 'element-plus/es/locale';
-import router from '../router';
+// import { tr } from 'element-plus/es/locale';
+// import router from '../router';
 import {refreshToken} from "./requestApi"
 // import axios from "axios"
 
@@ -61,9 +61,9 @@ function getFreshToken(){
     return localStorage.getItem('refreshToken') == null?sessionStorage.getItem('refreshToken'):localStorage.getItem('refreshToken');
 }
 
-function getToken(){
-    return localStorage.getItem('token') == null?sessionStorage.getItem('token'):localStorage.getItem('token');
-}
+// function getToken(){
+//     return localStorage.getItem('token') == null?sessionStorage.getItem('token'):localStorage.getItem('token');
+// }
 
 //清除localstorage sessionstorage数据 返回登录页面
 function backToLogin(){
@@ -91,7 +91,7 @@ service.interceptors.response.use((response: AxiosResponse) => {
     const data = response;
     const status = data.data.resultStatus;
     const config = response.config;
-    let text = '';
+    // let text = '';
     switch(status){
         //token过期,需要刷新token
         case '402':
