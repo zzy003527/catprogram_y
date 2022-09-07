@@ -161,10 +161,15 @@ userProgress().then((res) => {
     showComments(userMsg)
     return res
   } else {
-    ElMessage({
-      message: `${res.resultIns}`,
-      type: 'error'
-    })
+    if (userMsg.obj.testStatus == 100) {
+      checkProgress(userMsg)
+    } else {
+      ElMessage({
+        message: `${res.resultIns}`,
+        type: 'error'
+      })
+    }
+
 
   }
 
