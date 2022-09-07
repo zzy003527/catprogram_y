@@ -15,6 +15,7 @@
 import { ElMessageBox } from 'element-plus'
 import { logout } from '../../request/requestApi'
 import httpUrl from '/@/request/httpUrl'
+import store from "/@/store/index";
 // 退出登录部分
 const signout = () => {
 
@@ -32,6 +33,7 @@ const signoutCallback = () => {
         // window.location.href = "http://106.52.239.206:80/"
         window.location.href ='http://127.0.0.1:5173/'
         window.localStorage.removeItem('booked')
+        store.commit('configNavigationShow',false)
         // 再次确认
     }).catch(err => {
         ElMessageBox.alert(err.resultIns, '提示', {

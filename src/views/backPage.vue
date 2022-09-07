@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import navigation from './navigation/navigation.vue';
+
 </script>
 
 
