@@ -102,7 +102,7 @@ router.beforeEach((to, form, next) => {
     //     router.push("/backPage")
     // }
     // 如果进入(非介绍页或登录注册页)的时候没有检测到localStorage或者sessionStorage中有token的话，那么就跳转到介绍页
-    let userToken = window.localStorage.getItem('token') ? window.localStorage.getItem('token') : window.sessionStorage.getItem('token')
+    let userToken = localStorage.getItem('token') !==null ? localStorage.getItem('token') : sessionStorage.getItem('token')
     if (to.path.indexOf("/introduce") === -1 && !userToken) {
         router.push("/")
     }

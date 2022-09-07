@@ -102,9 +102,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
             //登陆成功的时候根据是否勾选七天免登陆来判断把token存储到localstorage里面还是sessionstorage
             if (checked1.value == true) {
               localStorage.setItem('token', `${res.obj}`);
+              localStorage.setItem("refreshToken",res.map.refreshToken)
             }
             else {
               sessionStorage.setItem('token', `${res.obj}`);
+              sessionStorage.setItem("refreshToken",res.map.refreshToken)
             }
             // 跳转到后台主页
             router.push('/backPage')

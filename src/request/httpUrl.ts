@@ -8,6 +8,7 @@ const config = {
 };
 
 const httpApi = {
+    refreshToken: config.rootUrl + '/cat/user/refreshToken',
     // 登录注册部分
     banner: config.rootUrl + '/home/banner', // banner
     login: config.rootUrl + '/cat/user/login', // 用户登录
@@ -24,8 +25,7 @@ const httpApi = {
     // 查看进度部分
     userProgress: config.rootUrl + '/cat/user/searchProgress',//查看用户进度
     logout: config.rootUrl + '/cat/user/logout',//退出登录
-    introduce: 'http://106.52.239.206:80/'//主页url
-    // introduce: 'http://127.0.0.1:5173/'//主页url
+    introduce: '/'//主页url
 }
 
 export { config };

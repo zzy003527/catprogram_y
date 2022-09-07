@@ -29,7 +29,9 @@ const signout = () => {
 const signoutCallback = () => {
     logout().then(() => {
         window.localStorage.removeItem('token')
+        window.localStorage.removeItem('refreshToken')
         window.sessionStorage.removeItem('token')
+        window.sessionStorage.removeItem('refreshToken')
         // window.location.href = "http://106.52.239.206:80/"
         window.location.href =httpUrl.introduce
         window.localStorage.removeItem('booked')

@@ -10,6 +10,9 @@ import qs from 'qs'
 const getBanner = async () => {
     return await request.get(httpUrl.banner);
 }
+const refreshToken = async (params) => {
+    return await request.post(httpUrl.refreshToken,(params))
+}
 // ------------------------------------------登录注册部分-----------------------------------------
 // 用户登录
 const login = async (params) => {
@@ -64,6 +67,7 @@ const logout = async () => {
 }
 
 export {
+    refreshToken,
     getBanner,
     login,
     register,
