@@ -133,7 +133,7 @@ function Book() {
                 if (bookedTime == data[i].timetable.timeQuantum) {obj.tag = '取消预约'}           
                 // 将预约时间段单独提出来
                 let timeQuantum=data[i].timetable.timeQuantum
-                if(dateStrChangeTimeTamp(timeQuantum)<Date.now()){obj.tag = '已过'}
+                if(dateStrChangeTimeTamp(timeQuantum.substring(0, 16)+':00')<Date.now()){obj.tag = '已过'}
                 obj.date = timeQuantum.split(' ')[0].substring(0, 11)
                 obj.time = timeQuantum.split(' ')[1].substring(0, 5) + '-' + data[i].timetable.timeQuantum.split(' ')[2].substring(0, 5)
                 dataArray.push(data[i].timetable)
